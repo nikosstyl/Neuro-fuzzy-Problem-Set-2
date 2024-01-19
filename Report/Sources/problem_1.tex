@@ -1,0 +1,11 @@
+\section{Problem 1}
+In this exercise we need to find the minimum of the given 2-dimensional function:\\
+\begin{equation}	
+		F(\mathbf{w})=w_{1}^{2}+w_{2}^{2}+(0.5w_{1}+w_{2})^{2}+(0.5w_{1}+w_{2})^{4}	
+\end{equation}
+with the Conjugate Gradient (Fletcher-Reeves) method.\\
+
+Initially, we can conclude that the function $F(w)$ is not in quadratic form because of the term $(0.5w_{1}+w_{2})^{4}$.
+A function is said to be in quadratic form if it can be expressed as a second-degree polynomial where all the terms are either squared terms or cross-products of the variables. The presence of the fourth-degree term $(0.5w_{1}+w_{2})^{4}$.
+makes this function a higher-degree polynomial, specifically a quartic function with respect to $(0.5w_{1}+w_{2})$, which means it cannot be classified as quadratic.\\
+Also, the independent values in this function are $w_{1},w_{2}$, because only with them we can manipulate the $F(w)$.
