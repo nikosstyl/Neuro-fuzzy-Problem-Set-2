@@ -3,32 +3,55 @@
 
 For the given neural network, we have:
 \begin{itemize}
+	\item learning rate $LR = 1$,
 	\item $w^1\left(0\right) = -3,\ w^2\left(0\right) = -1$,
 	\item $b^1\left(0\right) = 2,\ b^2\left(0\right) = -1$ and
 	\item input/target pair $\left\{p=1,\ t=0\right\}$
 \end{itemize}
 \vspace*{1mm}
-The output of the first layer is:
+
+\begin{center}
+	\underline{\textit{FIRST ITERATION}}
+\end{center}
+
+\underline{Step 1: Calculate first layer's output}
 \[
 \begin{gathered}
 n^1 = w^1 p + b^1 = (-3)(1) + 2 = -1\\
-a^1 = \text{Swish}\left(n^1\right) = \text{Swish}\left(-1\right) = \dfrac{n^1}{1+e^{-n^1}} = \dfrac{-1}{1+e} = -0.2689
+a^1 = {Swish}\left(n^1\right) = {Swish}\left(-1\right) = \dfrac{n^1}{1+e^{-n^1}} = \dfrac{-1}{1+e} = -0.2689
 \end{gathered}
 \]
 
-The output of the second layer is then:
+\underline{Step 2: Calculate second layer's output}
 \[
 \begin{gathered}
 n^2 = w^2 a^1 + b^2 = (-1)(-0.2689) + (-1) = -0.7311 \\ 
-a^2 = \text{LReLU}\left(n^2\right) = \text{LReLU}\left(-0.7311\right) = 0.001
+a^2 = {LReLU}\left(n^2\right) = {LReLU}\left(-0.7311\right) = -0.000731
 \end{gathered}
 \]
-So, the error calculated is:
+
+\underline{Step 3: Calculate error}
 \[
-e = t-a^2 = \left(1-\left(0.001\right)\right) = 0.999 \approx 1
+e = t-a^2 = \left(1-\left(-0.000731\right)\right) = 1.000731
 \]
 
-Now, we can apply back-propagation starting from the second layer:
+\underline{Step 4: Calculate sensitivity on second layer}
 \[
-s^2 = -2 \text{LReLU}^{'}\left(n^2\right)\left(t-a\right)
+s^2 = -2\ {LReLU}^{'}\left(n^2\right)\left(t-a^2\right) = -2 \left(0.001\right) \left(1.000731\right) = -0.002001
 \]
+\textit{\small LReLU's derivative is $1$ for $x>0$ and $0.001$ for $x<0$.}\\ 
+
+\underline{Step 5: Calculate sensitivity on first layer using back-propagation}
+\[
+\begin{gathered}
+s^1 = Swish^{'} \left(n^1\right) \left(W^2\right)^T s^2 = Swish^{'} \left(-1\right) \left(-1\right) \left(-0.002001\right) = 0.0723 \cdot (-1) \cdot \left(-0.002001\right) \\
+s^1 = 0.000145
+\end{gathered}
+\]
+
+\underline{Step 6: Update wheights and biases}
+\[
+\begin{gathered}
+\end{gathered}
+\]
+
