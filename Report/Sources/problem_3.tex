@@ -44,7 +44,7 @@ s^2 = -2\ {LReLU}^{'}\left(n^2\right)\left(t-a^2\right) = -2 \left(0.001\right) 
 \underline{Step 5: Calculate sensitivity on first layer using back-propagation}
 \[
 \begin{gathered}
-s^1 = Swish^{'} \left(n^1\right) \left(W^2\right)^T s^2 = Swish^{'} \left(-1\right) \left(-1\right) \left(-0.002001\right) = 0.0723 \cdot (-1) \cdot \left(-0.002001\right) \\
+s^1 = Swish^{'} \left(n^1\right) \left(w^2\right)^T s^2 = Swish^{'} \left(-1\right) \left(-1\right) \left(-0.002001\right) = 0.0723 \cdot (-1) \cdot \left(-0.002001\right) \\
 s^1 = 0.000145
 \end{gathered}
 \]
@@ -52,6 +52,59 @@ s^1 = 0.000145
 \underline{Step 6: Update wheights and biases}
 \[
 \begin{gathered}
+	w^{2}(1)=w^{2}(0)-LR\ s^{2}(a^{1})^{T} = -1 - 1(-0.002001)(-0.2689) = -1.0005380689\\
+	 b^{2}(1)=b^{2}(0)-LR\ s^{2} = -1 - 1(-0.002001) = -0.997999 \\
+	 w^{1}(1)=w^{1}(0)-LR\ s^{1}(a^{0})^{T} = -3 - 1(0.000145)(-1) = -2.999855 \\
+	 b^{1}(1)=b^{1}(0)-LR\ s^{1} = 2 - 1(0.000145) = 1.999855
 \end{gathered}
 \]
 
+\vspace*{1mm}
+\begin{center}
+	\underline{\textit{SECOND ITERATION}}
+\end{center}
+
+\underline{Step 1:}
+\[
+\begin{gathered}
+	n^1 = w^1 p + b^1 = (-2.999855)(1) + 1.999855 = -1\\
+	a^1 = {Swish}\left(n^1\right) = {Swish}\left(-1\right) = \dfrac{n^1}{1+e^{-n^1}} = \dfrac{-1}{1+e} = -0.2689
+\end{gathered}
+\]
+
+\underline{Step 2:}
+\[
+\begin{gathered}
+	n^2 = w^2 a^1 + b^2 = (-1.000538)(-0.2689) + (-0.997999) = -0.728954\\ 
+	a^2 = {LReLU}\left(n^2\right) = {LReLU}\left(-0.728954\right) = \num{-7.2895e-04}
+\end{gathered}
+\]
+
+\underline{Step 3:}
+\[
+e = t-a^2 = \left(1-\left( \num{-7.2895e-04}\right)\right) = 1.000728954
+\]
+
+\underline{Step 4:}
+\[
+s^2 = -2\ {LReLU}^{'}\left(n^2\right)\left(t-a^2\right) = -2 \left(0.001\right) \left(1.000728954\right) = -0.0020014579
+\]
+
+\underline{Step 5:}
+\[
+\begin{gathered}
+s^1 = Swish^{'} \left(n^1\right) \left(w^2\right)^T s^2 = Swish^{'} \left(-1\right) \left(-1.0005380689\right) \left(-0.0020014579\right) = \\
+= 0.0723 \cdot (-1.0005380689) \cdot \left(-0.0020014579\right) \\
+s^1 = 0.0001448423
+\end{gathered}
+\]
+
+\underline{Step 6:}
+\[
+\begin{gathered}
+w^{2}(2)=w^{2}(1)-LR\ s^{2}(a^{1})^{T} = -1.0005380689 - 1(-0.0020014579)(-0.2689) = -1.0010762609\\
+b^{2}(2)=b^{2}(1)-LR\ s^{2} = -0.997999 - 1(-0.0020014579) = -0.9959975421 \\
+w^{1}(2)=w^{1}(1)-LR\ s^{1}(a^{0})^{T} =  -2.999855 - 1(-0.0020014579)(-1) = -3.0018564579 \\
+b^{1}(2)=b^{1}(1)-LR\ s^{1} = 1.999855 - 1(-0.0020014579) = 2.0018564579
+\end{gathered}
+\]
