@@ -46,11 +46,14 @@ f_func = matlabFunction(f);
 fprintf('Minimum value of f: %.4f\n', f_func(x(1), x(2)));
 fprintf('x at minimum: %.4f, %.4f\n', x(1), x(2));
 
+
+%%%%%%%%%%%%%%%%% PLOT THE FUNCTION AND VISUALIZE THE MIN %%%%%%%%%%%
+
 % Convert the symbolic function f to a function handle
 f_func = matlabFunction(f);
 
 % Generate a grid of points in the x1-x2 plane
-[x1_grid, x2_grid] = meshgrid(-2:0.1:2, -2:0.1:2);
+[x1_grid, x2_grid] = meshgrid(-10:0.1:10, -10:0.1:10);
 
 % Compute the function values at the grid points
 f_grid = f_func(x1_grid, x2_grid);
