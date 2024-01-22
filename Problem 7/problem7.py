@@ -1,3 +1,7 @@
+#In this code, we define a simple MLP with one hidden layer and one output layer.
+#Each layer uses a linear function and the ReLU activation function.
+#The plot shows that the output of the MLP is a piecewise linear function.
+
 import numpy as np
 import matplotlib.pyplot as plt
 import warnings
@@ -40,7 +44,3 @@ plt.title('ReLU Activation Function')
 plt.legend()
 plt.grid()
 plt.show()
-
-## Plot the output of the MLP
-#plt.plot(x, y)
-#plt.show()
