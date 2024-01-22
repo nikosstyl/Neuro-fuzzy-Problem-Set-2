@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
 
 # Define the ReLU function
 def relu(x):
@@ -29,6 +31,16 @@ x = np.linspace(-10, 10, 400)
 # Compute the output of the MLP for the input values
 y = mlp(x, weights)
 
-# Plot the output of the MLP
-plt.plot(x, y)
+# Plot the input and output
+plt.figure(figsize=(3.5, 2.5))
+plt.plot(x, y, label='Model Output')
+plt.xlabel('Input')
+plt.ylabel('Output')
+plt.title('ReLU Activation Function')
+plt.legend()
+plt.grid()
 plt.show()
+
+## Plot the output of the MLP
+#plt.plot(x, y)
+#plt.show()
