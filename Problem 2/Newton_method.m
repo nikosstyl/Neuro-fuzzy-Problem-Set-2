@@ -30,8 +30,7 @@ for k = 1:maxIterations
     % Update the value of x using the Newton method
     x = x - lambda * [dfx1_func(x(1), x(2)); dfx2_func(x(1), x(2))];
 
-    
-
+   
     % Check for convergence
     if norm([dfx1_func(x(1), x(2)); dfx2_func(x(1), x(2))]) < 1e-6
         break;
