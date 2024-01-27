@@ -1,0 +1,42 @@
+To calculate the number of weights in a Convolutional Neural Network (CNN), we need to consider the weights in each layer.
+
+Here is the breakdown:
+
+LAYER 1: Convolutional layer with 100 5x5 filters. Each filter has 5*5 = 25 weights.
+         So, total weights = 25 * 100 = 2500 weights.
+
+LAYER 2: Convolutional layer with 100 5x5 filters. Each filter has 5*5 = 25 weights. Since the input to this layer is the output of the previous layer which has 100 feature maps, 
+         the total weights = 25 * 100 (filters) * 100 (input feature maps) = 250,000 weights.
+
+LAYER 3: Max pooling layer. This layer does not have any weights.
+
+LAYER 4: Dense layer with 100 units. The input to this layer is the output of the previous layer which is a 50x50 feature map from 100 filters, so the total input units = 50 * 50 * 100 = 250,000 units. 
+         Therefore, the total weights = 250,000 (input units) * 100 (output units) = 25,000,000 weights.
+
+LAYER 5: Dense layer with 100 units. The input to this layer is the output of the previous layer which has 100 units. 
+         Therefore, the total weights = 100 (input units) * 100 (output units) = 10,000 weights.
+
+LAYER 6: Single output unit. The input to this layer is the output of the previous layer which has 100 units. 
+         Therefore, the total weights = 100 (input units) * 1 (output unit) = 100 weights.
+
+Adding all these up, the total number of weights in the network is 2500 (LAYER 1) + 250,000 (LAYER 2) + 25,000,000 (LAYER 4) + 10,000 (LAYER 5) + 100 (LAYER 6) = 25,262,600 weights.
+
+Please note that this calculation does not include biases. If each neuron has a bias, then the total number of parameters (weights + biases) would be slightly higher.
+
+################### IF WE HAVE BIASES #####################
+
+In a typical Convolutional Neural Network (CNN), each neuron in a layer usually has a bias. The bias is an additional parameter that is used in the computation of the output of the neuron. It's used to shift the activation function to the left or right, which can be critical for successful learning.
+
+However, whether a specific network has biases or not depends on how it was implemented. In your description of the network, you didn't specify whether biases are used. If the network was implemented with biases, then each neuron in the convolutional and dense layers would have a bias, adding to the total number of parameters in the network.
+
+If we assume that biases are used, then the total number of biases in the network would be:
+
+LAYER 1: 100 (one bias per filter)
+LAYER 2: 100 (one bias per filter)
+LAYER 4: 100 (one bias per unit)
+LAYER 5: 100 (one bias per unit)
+LAYER 6: 1 (one bias for the output unit)
+
+So, the total number of biases would be 401. 
+
+Adding this to the previously calculated total number of weights (25,262,600), the total number of parameters in the network would be 25,263,001.

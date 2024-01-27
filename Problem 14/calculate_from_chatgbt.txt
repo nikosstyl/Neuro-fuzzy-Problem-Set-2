@@ -1,0 +1,73 @@
+
+To calculate the total number of weights in the convolutional neural network described, we need to consider each layer separately:
+
+Layer 1: Convolutional Layer
+
+*Input Size: 100x100 (grayscale, so 1 channel)
+*Filter Size: 5x5
+*Number of Filters: 100
+*Weights: Each filter has 5x5 weights and there's 1 bias per filter.
+    Weights per filter = 5 x 5 =25
+    Total weights = 25 × 100=2500
+    Total biases = 100 (1 per filter)
+    
+    Total for Layer 1: 2500+100=2600
+
+
+Layer 2: Convolutional Layer
+
+*Input Channels: 100 (from Layer 1)
+*Filter Size: 5x5
+*Number of Filters: 100
+*Weights: Each filter has 5x5 weights for each input channel.
+    Weights per filter = 5×5×100=2500
+    Total weights = 2500×100=250,000
+    Total biases = 100 (1 per filter)
+    
+    Total for Layer 2: 250,000+100=250,100
+
+
+Layer 3: Max Pooling Layer
+
+No weights or biases as this is a pooling layer.
+
+
+Layer 4: Dense Layer
+
+*Input Units: After max pooling, the size is reduced to 50x50, and there are 100 channels.
+*Output Units: 100
+*Weights: Each output unit is connected to each input unit.
+    Input size = 50×50×100=250,000
+    Weights = 250,000×100=25,000,000
+    Total biases = 100 (1 per output unit)
+
+    Total for Layer 4: 25,000,000+100=25,000,100
+
+
+Layer 5: Dense Layer
+
+*Input Units: 100 (from Layer 4)
+*Output Units: 100
+*Weights: Each output unit is connected to each input unit.
+    Weights = 100×100=10,000
+    Total biases = 100 (1 per output unit)
+    
+    Total for Layer 5: 10,000+100=10,100
+
+
+Layer 6: Output Layer
+
+*Input Units: 100 (from Layer 5)
+*Output Units: 1
+*Weights: Each output unit is connected to each input unit.
+    Weights = 100×1=100
+    Total biases = 1 (1 for the output unit)
+    
+    Total for Layer 6: 100+1=101
+
+
+
+Total Weights = Layer 1 + Layer 2 + Layer 4 + Layer 5 + Layer 6
+Total Weights = 2600 + 250,100 + 25,000,100 + 10,100 + 101 = 25,262,001
+
+Therefore, the total number of weights in this network is 25,262,001.
