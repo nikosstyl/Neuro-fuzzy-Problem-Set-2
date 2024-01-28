@@ -32,6 +32,20 @@ kernel = np.array([
 result = convolve2d(I, kernel, mode='valid')
 print("The result of the convolution is:\n", result)
 
+# Plot the original image
+plt.subplot(1, 2, 1)
+plt.imshow(I, cmap='gray')
+plt.title('Original Image')
+plt.axis('off')
+
+# Plot the feature map
+plt.subplot(1, 2, 2)
+plt.imshow(result, cmap='gray')
+plt.title('Feature Map')
+plt.axis('off')
+
+# Display the plots
+plt.show()
 
 ### QUESTION B
 # Apply max pooling
