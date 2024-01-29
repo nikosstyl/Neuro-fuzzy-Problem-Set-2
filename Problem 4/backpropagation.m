@@ -1,4 +1,4 @@
-function backpropagation (S, learning_rate)
+function [W1_init, b1_init, W2_init, b2_init] = backpropagation (S, learning_rate)
 
     % Define network structure
 
@@ -8,12 +8,19 @@ function backpropagation (S, learning_rate)
     W2 = rand(1, S) - 0.5;
     b2 = rand(1, 1) - 0.5;
 
+    W1_init = W1;
+    b1_init = b1;
+    W2_init = W2;
+    b2_init = b2;
+
+    MAX_EPOCHS = 1000;
+
     % Training data
     p = linspace(-2, 2, 100)';
     t = 1 + sin(3 * pi * p / 8);
 
     % Training
-    for epoch = 1:1000
+    for epoch = 1:MAX_EPOCHS
         for i = 1:length(p)
             % Forward pass
             a1 = logsig(W1 * p(i) + b1);
