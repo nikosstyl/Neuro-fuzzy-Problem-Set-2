@@ -14,8 +14,9 @@ In this exercise we are considering a $6 x 6$ image I, where each entry represen
 		74 & 216 & 174 & 252 & 172 & 112 \\
 		70 & 210 & 170 & 250 & 170 & 110 \\
 	\end{bmatrix}
+	\label{tab:input_image}
 \end{equation}
-\label{fig:input_image}
+
 
 Given the input matrix we can understand that it represents a grayscale image. In a grayscale image, each pixel is represented by a single intensity value, typically on a scale $\left[0, 255\right]$. The 2D input array contains such intensity values for each pixel in the image.
 
@@ -50,7 +51,7 @@ The result of the convolution is a $ 4 x 4$ matrix\\
 
 The resulting matrix, represents the features in the input image that the kernel was able to detect. In this case, the kernel seems to act like a filter that emphasizes the surrounding context of each pixel. The exact interpretation would depend on the specific values in the input image and the kernel. 
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=.7\textwidth]{../Problem 11/conv_result.pdf}
 	\caption{The Original Image and the Image after the convolution}
@@ -81,10 +82,97 @@ We can conclude that the max pooling operation only reduces the size of the feat
 \subsection{Question C}
 As we have seen in the previous questions, the use of kernels, also known as filters, is a fundamental tool for image processing. They are essential for the efficient extraction of different features, the reduction of the number of parameters and optimal processing. In this exercise, we will emphasize the importance of kernels for extracting different features from the same input image.\\
 
-So, for the input image \ref{fig:input_image} we have the following results:
+So, for the input image (Matrix~\ref{tab:input_image}) we have the following results:
 \begin{itemize}
-	\item \underline{Filter F1}\\
+	\item \underline{Filter $F1$}\\
 	
+	\begin{equation}
+		F1 = \begin{bmatrix}
+			-10 & -10 & -10   \\
+			  5 &  5 &  5   \\
+			-10 & -10 & -10   \\
+		\end{bmatrix}
+	\end{equation}
+	\vspace{2mm}
+	
+	We can conclude that this filter is a type of edge detection filter, specifically designed to detect edges running horizontally in an image. \\
+	In more detail, the negative values on the top and bottom rows will respond strongly to intensity changes in those directions, while the positive values in the middle row will respond to the opposite. Areas with strong horizontal edges will result in high absolute values in the convolved feature map. This means that this filter will highlight areas of the image where there is a strong intensity change from dark to light or light to dark in a horizontal direction, effectively detecting horizontal edges. To be precise, the positive values in the middle row of the kernel will align with the lighter part of a horizontal edge, while the negative values will align with the darker part.\\
+	
+	After applying the kernel $F1$ to our input image I, we obtain the following matrix:
+
+	\begin{equation}
+		I\_F1 = \begin{bmatrix}
+			-925 & -1040 & -1000 & -845 \\
+			 -3900 & -4895 & -4825 & -4160  \\
+			-3750 & -5120 &-4650 & -4210   \\
+			-5200 & -6990 & -6750 & -5920 \\
+			\end{bmatrix}
+	\end{equation}
+	\vspace{2mm}
+	
+	As we can observe, the size of the matrix is reduced, due to the "valid" mode in the convolution operation on our code, as it only computes the convolution where the kernel fits entirely within the image boundaries.\\
+	
+	The values in this feature map represent the strength and location of horizontal edges detected in the input image. High absolute values, whether positive or negative, indicate strong edges, while values close to zero indicate regions with little or no horizontal edge presence.\\
+	In this case, the large negative values indicate strong horizontal edges where there is a transition from light to dark pixels. This is consistent with the design of the kernel, which is tailored to detect such features in the image.
+	
+	
+	To understand the topic, i will provide a graphical explanation.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.7\textwidth]{../Problem 11/kernel_F1.pdf}
+		\caption{Before and After of the input image}
+		\label{fig:kernel1}
+	\end{figure}
+	\vspace{3mm}
+	
+	\item \underline{Filter $F2$}\\
+	
+	\begin{equation}
+		F2 = \begin{bmatrix}
+			2 & 2 & 2   \\
+			2 & -12 & 2   \\
+			2 & 2 & 2   \\
+		\end{bmatrix}
+	\end{equation}
+	\vspace{2mm}
+	
+	The filter $F2$ is a $3 x 3$ matrix with a negative value in the center and positive values surrounding it. This type of kernel is often used for edge detection, most likely to highlight the edges of objects in the image.\\
+	
+	This configuration indicates that the kernel is likely designed to detect points in the image where there is a central pixel that is significantly different from its surrounding pixels. Exemplifying, when this kernel is convoluted with an image, it computes a difference between the center pixel and its neighbors. If the image has a region where pixel intensity changes rapidly, the convolution operation will yield a high absolute value. In contrast, in regions of the image where pixel intensity changes slowly, the convolution operation will yield values close to zero.\\
+	
+	To have a better understanding, we will apply this kernel to our image I.\\
+	After applying the kernel $F2$ to our image, the result is:
+	
+		\begin{equation}
+		I\_F2 = \begin{bmatrix}
+			-102 & -12 &  -4 & -86 \\
+			 616  & 880 &  876 &  716  \\
+			-24 & 570 & -74 & 236   \\
+			-592 & 888 & -384 & 384 \\
+		\end{bmatrix}
+	\end{equation}
+	\vspace{2mm}
+	
+	That being said, the positive and negative values in the feature map correspond to areas where this contrast is detected. Particularly, positive values indicate regions where the central pixel is much darker than its surroundings and negative values indicate regions where the central pixel is not significally different from its surroundings as in regions with higher positive values.\\
+	
+	We can figure it out by providing also this figure:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.7\textwidth]{../Problem 11/kernel_F2.pdf}
+		\caption{Before and After of the input image}
+		\label{fig:kernel2}
+	\end{figure}
+	\vspace{3mm}
+	
+	The visualization in the image seems to reflect the application of such a kernel, because areas of the original image that had a central pixel with lower intensity compared to the neighbors would stand out as brighter spots in the resulting image.\\
+	
+	To sum up, this kind of kernel is useful for detecting features such as sharp edges, corners, or small isolated features where there is a notable contrast between a central point and its neighboring pixels. The high values (both positive and negative) in the feature map highlight these contrasting areas in the image.
+	\vspace{3mm}
+	
+	\item \underline{Filter $F3$}\\
+	
+	
+		
 \end{itemize}
 
 

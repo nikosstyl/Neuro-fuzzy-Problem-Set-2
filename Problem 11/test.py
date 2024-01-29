@@ -13,18 +13,18 @@ I = np.array([
 ])
 
 ### KERNEL F1
-F = np.array([
-     [-10, -10, -10],
-     [5, 5, 5],
-     [-10, -10, -10]
-])
+# F = np.array([
+    #  [-10, -10, -10],
+    #  [5, 5, 5],
+    #  [-10, -10, -10]
+# ])
  
 ### KERNEL F2
-#F = np.array([
-#    [2, 2, -2],
-#    [2, -12, 2],
-#    [2, 2, 2]
-#])
+F = np.array([
+    [2, 2, 2],
+    [2, -12, 2],
+    [2, 2, 2]
+])
 
 ### KERNEL F3
 #F = np.array([
@@ -36,19 +36,20 @@ F = np.array([
 #])
 
 # Apply the kernel to the image using 2D convolution
-feature_map_F = convolve2d(I, F, mode='same', boundary='fill', fillvalue=0)
+feature_map_F = convolve2d(I, F, mode='valid')
+print(feature_map_F)
 
 # Plot the original image
 plt.subplot(1, 2, 1)
 plt.imshow(I, cmap='gray')
 plt.title('Original Image')
-plt.axis('off')
+# plt.axis('off')
 
 # Plot the feature map
 plt.subplot(1, 2, 2)
 plt.imshow(feature_map_F, cmap='gray')
-plt.title('Feature Map')
-plt.axis('off')
+plt.title('After Applying Kernel')
+# plt.axis('off')
 
 # Display the plots
 plt.show()
