@@ -1,3 +1,44 @@
 % !TeX spellcheck = en_US
 \section{Problem 12}
 
+To compute the number of weights and biases for each convolutional layer, we need to take into consideration the size of kernels and the number of input/output channels for each layer.
+
+\subsection{First hidden layer}
+For the first hidden layer we have:
+\begin{itemize}
+	\item \textbf{Input Channels:} 3
+	\item \textbf{Kernel Size:} 3
+	\item \textbf{Output Channels:} 4
+\end{itemize}
+
+Each filter in a convolutional layer has a weight for each entry in the kernel in the kernel for each input channel, and there is one bias per filter.\\ 
+
+The number of weights for a single filter in the first layer is the kernel size multiplied by the number of input channels:
+\[
+\textit{Weights per filter} = \textit{Kernel size} \times \textit{input channels} = 3 \times 3 = 9
+\] \\ 
+
+Since there are $4$ filters, the total number of weights for the first layer is: 
+\[
+\textit{Total weights} = \textit{Weights per filter} \times \textit{Filters} = 9\times 4 = 36.
+\] \\ 
+
+There's only one bias per filter, so the total number of biases is $4$.
+
+\subsection{Second hidden layer}
+For the second hidden layer we have:
+\begin{itemize}
+	\item \textbf{Input Channels:} 4 (\textit{\small from the previous layer})
+	\item \textbf{Kernel Size:} 5
+	\item \textbf{Output Channels:} 10
+\end{itemize}
+
+The number of weights for a single filter in the second layer is the kernel size multiplied by the number of input channels from the first layer:
+\[
+\textit{Weights per filter} = \textit{Kernel size} \times \textit{Input channels from previous layer} = 5 \times 4=20
+\]
+Since there are 10 filters, the total number of filters on the second layer is $20 \times 10 = 200$.
+
+As far as the biases are concerned, there's only one bias per filter, so for $10$ filters, the total number is $10$.\\
+
+Summarizing, for the two convolutional layers, we need a total of \underline{$36$ weights and $4$ biases for the first layer} and \underline{$200$ weights and $10$ biases for the second layer}.
