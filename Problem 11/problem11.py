@@ -33,24 +33,39 @@ result = convolve2d(I, kernel, mode='valid')
 print("The result of the convolution is:\n", result)
 
 # Plot the original image
-plt.subplot(1, 2, 1)
-plt.imshow(I, cmap='gray')
-plt.title('Original Image')
-plt.axis('off')
-
+# plt.subplot(1, 2, 1)
+# plt.imshow(I, cmap='gray')
+# plt.title('Original Image')
+# plt.axis('off')
+# 
 # Plot the feature map
-plt.subplot(1, 2, 2)
-plt.imshow(result, cmap='gray')
-plt.title('Feature Map')
-plt.axis('off')
-
+# plt.subplot(1, 2, 2)
+# plt.imshow(result, cmap='gray')
+# plt.title('Feature Map')
+# plt.axis('off')
+# 
 # Display the plots
-plt.show()
+# plt.show()
 
 ### QUESTION B
 # Apply max pooling
-pool_size = (2, 2)
+window = (2, 2)
 stride = (2, 2)  # Note: block_reduce doesn't support strides. It will always be the same as pool_size
 
-pooled_result = max_pooling(result, pool_size, stride)
+pooled_result = max_pooling(result, window, stride)
 print("\nThe max pooling result is:\n", pooled_result)
+
+# Plot the original image
+plt.subplot(1, 2, 1)
+plt.imshow(result, cmap='gray')
+plt.title('Output Image of Convolution')
+plt.axis('off')
+ 
+# Plot the feature map
+plt.subplot(1, 2, 2)
+plt.imshow(result, cmap='gray')
+plt.title('Max Pooled Image')
+plt.axis('off')
+ 
+# Display the plots
+plt.show()

@@ -15,6 +15,8 @@ In this exercise we are considering a $6 x 6$ image I, where each entry represen
 		70 & 210 & 170 & 250 & 170 & 110 \\
 	\end{bmatrix}
 \end{equation}
+\label{fig:input_image}
+
 Given the input matrix we can understand that it represents a grayscale image. In a grayscale image, each pixel is represented by a single intensity value, typically on a scale $\left[0, 255\right]$. The 2D input array contains such intensity values for each pixel in the image.
 
 \subsection{Question A}
@@ -36,12 +38,14 @@ So, in conclusion, with a
 
 The result of the convolution is a $ 4 x 4$ matrix\\
 
-$	result = \begin{bmatrix}
-	225 & 258 & 250 & 209  \\
-	458 & 566 & 552 & 472  \\
-	708 & 981 & 887 & 802  \\
-	1000 & 1488 & 1320 &1224 \\
-\end{bmatrix}$
+\begin{equation}
+	result = \begin{bmatrix}
+		225 & 258 & 250 & 209  \\
+		458 & 566 & 552 & 472  \\
+		708 & 981 & 887 & 802  \\
+		1000 & 1488 & 1320 &1224 \\
+	\end{bmatrix}
+\end{equation}
 \vspace{6mm}
 
 The resulting matrix, represents the features in the input image that the kernel was able to detect. In this case, the kernel seems to act like a filter that emphasizes the surrounding context of each pixel. The exact interpretation would depend on the specific values in the input image and the kernel. 
@@ -51,5 +55,39 @@ The resulting matrix, represents the features in the input image that the kernel
 	\includegraphics[width=.7\textwidth]{../Problem 11/conv_result.pdf}
 	\caption{The Original Image and the Image after the convolution}
 \end{figure}
+\vspace{3mm}
+\subsection{Question B}
+Now, using the output of the convolution of the input image we are going to apply a max pooling layer with the following properties: 
+\begin{itemize}
+	\item $stride = \left(2,2\right)$ and 
+	\item $	window\ \ shape = \left(2, 2\right)$
+\end{itemize}
+In general, a max pooling layer performs a downsampling operation along the spatial dimensions, width and height, of the input data. The main goal is to reduce the dimensionality of the input, which helps to control overfitting and reduces computational complexity for subsequent layers.\\
+In our exercise, the size of the input matrix is reduced from $ 4 x 4 \rightarrow 2 x 2$.\\
+ 
+The max pooling operation works by defining a spatial neighborhood, in our case a $ 2 x 2\ \ window$ and taking the maximum element from the rectified feature map within the window. This window is slid over the input data with a certain stride to produce a new matrix where each element is the maximum of a neighborhood from the input. This process effectively reduces the spatial dimensions of the feature map.\\
+
+The result of the max pooling layer is a $2 x 2$ matrix of the same image
+\begin{equation}
+	max\_pooling = \begin{bmatrix}
+		566 & 552   \\
+		1488 & 1320 &  \\
+	\end{bmatrix}
+\end{equation}
+\\
+We can conclude that the max pooling operation only reduces the size of the feature map while preserving the most important and prominent features. It gives a more abstract and compressed representation of the input image.
+\vspace{3mm}
+
+\subsection{Question C}
+As we have seen in the previous questions, the use of kernels, also known as filters, is a fundamental tool for image processing. They are essential for the efficient extraction of different features, the reduction of the number of parameters and optimal processing. In this exercise, we will emphasize the importance of kernels for extracting different features from the same input image.\\
+
+So, for the input image \ref{fig:input_image} we have the following results:
+\begin{itemize}
+	\item \underline{Filter F1}\\
+	
+\end{itemize}
+
+
+
 
 
