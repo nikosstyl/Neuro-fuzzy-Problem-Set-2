@@ -1,0 +1,60 @@
+% !TeX spellcheck = en_US
+\section{Problem 13}
+Max-pooling is a process used for downsapling the input or reducing its dimensionality. It works by sliding a window across the input and taking the maximum value within that window as an output.
+
+\subsection{Question A}
+Max pooling can be accomplished using ReLU operations and in this Question we will show it and we will express $\max(a,b)$ by using them.\\
+
+To begin with, ReLU, as we have mentioned before, is an activation function that:
+\begin{itemize}
+	\item For inputs $x$ where $x > 0$, the output is $x$.
+	\item For inputs $x$ where $x \leq 0$, the output is $0$
+\end{itemize}
+
+Mathematically it is defined as: $\operatorname{ReLU}(x)=\operatorname*{max}(x,0)$\\
+
+Taking this into account, to express the $\max(a,b)$ by using only ReLU operations, we can consider the following expression:\\
+\begin{equation}
+	max(a,b) = a \cdot ReLU(a-b) + b \cdot ReLU(b-a).
+	\label{eq:problem13}
+\end{equation}
+
+
+Therefore, now we need to prove it: 
+\begin{itemize}
+	\item $\bm{For\ \ a > b:}$\\
+	$a - b > 0 $ and $b - a < 0$.\\
+	$\operatorname{ReLU}(a - b) = a - b$ and  $\operatorname{ReLU}(b - a) = 0$
+	\vspace{1mm}
+	
+	By replacing these values into Equation~\ref{eq:problem13} we will have:
+	
+	$max(a,b) = a\cdot(a-b) + b\cdot0 = a\cdot(a-b).$
+	\vspace{1mm}
+	
+	In this result, $a > b$, so it is the maximum value between these two and $(a - b) > 0$. Thus, the product is positive and the possible maximum.
+	\vspace{1mm}
+	
+	Hence, the expression max(a,b) evaluates to the maximum of $a,b$.
+	
+	\item $\bm{For\ \ a < b:}$\\
+	$a - b < 0 $ and $b - a > 0$.\\
+	$\operatorname{ReLU}(a - b) = 0$ and  $\operatorname{ReLU}(b - a) = b - a$
+	\vspace{1mm}
+	
+	By replacing these values into Equation~\ref{eq:problem13} we will have:
+	
+	$max(a,b) = a\cdot0 + b\cdot(b-a) = b\cdot(b-a).$
+	\vspace{1mm}
+	
+	Similarly, $b > a$, so it is the maximum value between these two and $(b - a) > 0$. Thus, the product is positive and the possible maximum.
+	\vspace{1mm}
+	
+	Additionally, the expression max(a,b) evaluates to the maximum of $a,b$ too.
+\end{itemize}
+Everything considered, we can express $\max(a,b)$ as $max(a,b) = a\cdot(a-b) + b\cdot0 = a\cdot(a-b).$
+\vspace{3mm}
+
+\subsection{Question B}
+
+
