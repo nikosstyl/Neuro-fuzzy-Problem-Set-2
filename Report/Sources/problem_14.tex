@@ -1,0 +1,65 @@
+% !TeX spellcheck = en_US
+\section{Problem 14}
+
+We are given an abstract of a CNN that classifies images into two classes. Its structure is as follows:
+\begin{itemize}
+	\item \textbf{Input}: $100 \times 100$ grayscale images.
+	\item \textbf{Layer 1}: Convolutional layer with $100 \ 5\times 5$ convolutional filters.
+	\item \textbf{Layer 2}: Convolutional layer with $100 \ 5\times 5$ convolutional filters.
+	\item \textbf{Layer 3}: Max Pooling layer with reduction from $100 \times 100 \rightarrow 50 \times 50$.
+	\item \textbf{Layer 4}: Dense layer with 100 units.
+	\item \textbf{Layer 5}: Dense layer with 100 units.
+	\item \textbf{Layer 6}: Single output unit.
+\end{itemize}
+
+In order to calculate all the weights in this CNN, we have to consider each layer separately:\\
+
+\begin{minipage}[l]{0.47\textwidth}
+	\textbf{Layer 1:}
+	\begin{itemize}
+		\item Input size: $100 \times 100$.
+		\item Filter size: $5 \times 5$.
+		\item Number of filters: $100$.
+		\item Weights: Each filter has $5 \times 5$ weights and there's a bias per filter.
+		\begin{itemize}
+			\item Weights per filter: $5 \times 5=25$.
+			\item Total weights: $25\times 100=2500$.
+			\item Total biases: $100$ (1 per filter).
+		\end{itemize}
+	\end{itemize}
+	So, in total we have $2500 + 100 = 2600$ weights.
+\end{minipage}
+\hfil
+\begin{minipage}[r]{0.47\textwidth}
+	\textbf{Layer 2:}
+	\begin{itemize}
+		\item Input channels: $100$ (from layer 1).
+		\item Filter size: $5 \times 5$.
+		\item Number of filters: $100$.
+		\item Weights: Each filter has $5 \times 5$ weights for each input channel.
+		\begin{itemize}
+			\item Weights per filter: $5 \times 5 \times 100 = 2500$.
+			\item Total weights: $2500\times 100 = \num{250000}$.
+			\item Total biases: $100$ (1 per filter).
+		\end{itemize}
+	\end{itemize}
+	In total, we have $\num{250000} + 100 = \num{250100}$ weights.
+\end{minipage} \\
+
+Moving on to \textbf{layer 3}, this layer doesn't have any weights or biases because it's a pooling layer.
+After max pooling, there's a reduction in layer's 2 output, from $100\times 100 \rightarrow 25\times 25$ and there are still 100 channels.
+
+\textbf{Layer 4} is a dense layer (\textit{fully connected}) which has input size of $25 \times 25 \times 100 = 62500$. So, in order to calculate the total number of weights, we multiply the input size with the number of channels and add the number of total biases (\textit{which is equal to the number of channels}), which is equal to $62500 \times 100 +100 = \num{6250000} + 100 = \num{6250100} $.
+
+\textbf{Layer 5} is also a dense layer and the procedure for calculating the weights is the same as above. We have $100$ input units from layer 4 and $100$ output units, so the weights are $100 \times 100  +100 = \num{10100}$.
+
+Moving on to the \textbf{output layer}, weights are equal to the input units and bias is only $1$, so this layer's weights number is $100 +1 = 101$.
+
+The total number of weights is:
+\[
+\begin{gathered}
+\text{Total Weights} = \sum \left(\text{layers num}\right) = \\
+= \text{Layer 1} + \text{Layer 2} + \text{Layer 3} + \text{Layer 4} + \text{Layer 5} + \text{Layer 6} = \\
+= \num{2600} + \num{250100} + \num{6250100} + \num{10100} + \num{101} = \mathbf{\num{6513001}} 
+\end{gathered}
+\]
