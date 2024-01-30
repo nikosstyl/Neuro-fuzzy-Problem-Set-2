@@ -13,7 +13,7 @@ To begin with, ReLU, as we have mentioned before, is an activation function that
 
 Mathematically it is defined as: $\operatorname{ReLU}(x)=\operatorname*{max}(x,0)$\\
 
-Taking this into account, to express the $\max(a,b)$ by using only ReLU operations, we can consider the following expression:\\
+Taking this into account, to express $\max(a,b)$ by using only ReLU operations, we can consider the following expression:\\
 \begin{equation}
 	max(a,b) = a \cdot ReLU(a-b) + b \cdot ReLU(b-a).
 	\label{eq:problem13}
@@ -52,9 +52,39 @@ Therefore, now we need to prove it:
 	
 	Additionally, the expression max(a,b) evaluates to the maximum of $a,b$ too.
 \end{itemize}
-Everything considered, we can express $\max(a,b)$ as $max(a,b) = a\cdot(a-b) + b\cdot0 = a\cdot(a-b).$
+Everything considered, we can express $\max(a,b)$ as $	max(a,b) = a \cdot ReLU(a-b) + b \cdot ReLU(b-a).$
 \vspace{3mm}
 
 \subsection{Question B}
+In relation to our theory, we know that pooling is a technique used in Convolutional Neural Networks to reduce the spatial dimensions, width and height, of a volume. It is mainly used to reduce computational complexity, control overfitting and manage the number of parameters in an network. Another important purpose of pooling is to increase the receptive field while reducing the spatial extent of the layer by using strides larger than 1.\\
 
+Max pooling is one of the most common pooling techniques. This operation calculates the maximum valuer in each field of the input matrix within a given window. It also introduces a form of translation invariance as the exact position of the features becomes less important.\\
 
+However, it has been recently suggested that pooling is not always necessary. One can design a network consisting only of convolutional and ReLU operations and achieve the expansion of the receptive field by using larger steps within the convolutional operations. \\
+
+That's why in this question, by using the previous expression~\ref{eq:problem13}, we will try to implement the max-pooling operation by means of convolutions and ReLU Layers.
+For this implemention we will need:
+\begin{itemize}
+	\item \underline{Convolutional Kernel}: We can use a $2 x 2$ convolutional kernel with a stride of 2 and no padding. The purpose of the convolutional kernel is to slide over the input feature map and perform the pooling operation.
+	\item \underline{Stride of 2}: The stride of 2 means that the convolutional kernel will move by 2 pixels horizontally and vertically at each step. This results in downsampling the feature map by a factor of 2 in both width and height. The pooling operation will select the maximum value within each $2x2$ window.
+	\item \underline{No padding}: Without padding, the convolutional kernel will only be applied to valid positions of the input. This means that the output feature map will have reduced spatial dimensions compared to the input.
+	\item \underline{ReLU activation function}: After the convolution operation, we apply the ReLU activation function to the output feature map. The ReLU sets all negative values to zero and keeps the positive values unchanged. This introduces non-linearity and helps the network learn complex patterns and features.
+\end{itemize}
+\vspace{2mm}
+
+By combining the $2 \times 2$ convolution with a stride of 2 and no padding and afterwards applying the ReLU activation function, we achieve the effect of max-pooling. The convolution operaton reduces the spacial dimensions of the feature map, while the ReLU introduces non-linearity.\\
+
+Overall, this implementation of max-pooling using convolutions and ReLU layers allows for downsampling the feature maps and retaining the maximum values within each pooling window, which is the essence of the Max pooling operation.
+\vspace{3mm}
+
+\subsection{Question C}
+
+In general, an $n \times n$ convolution needs $n^2$ channels and layers.
+
+In a standard convolutional layer, each filter processes the entire input and produces a single output channel.
+But, to mimic the behavior of max-pooling with convolutions, we need to ensure that each element in the $n \times n$ pooling window can be independently compared with the others. This requires a unique filter for each position in the pooling window.\\
+
+Also, a $n \times n$ window naturally has $n^2$ elements, with each element being compared with every other element to determine the maximum. Therefore, you need exactly $n^2$ different channels (\textit{or filters}) where each channel is responsible for one of the $n^2$ positions in the pooling window. 
+
+So, for a $2 \times 2$ convolution, \underline{$2^2 = 4$} layers and channels are needed.
+For a $3 \times 3$ convolution, \underline{$3^2 = 9$} channels and layers are used.

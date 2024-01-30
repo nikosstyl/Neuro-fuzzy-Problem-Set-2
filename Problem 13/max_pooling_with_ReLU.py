@@ -4,7 +4,7 @@ def relu(x):
     return np.maximum(0, x)
 
 def max_pooling_with_relu(a, b):
-    return 0.5 * (a + b + relu(a - b) + relu(b - a))
+    return ( a*relu(a - b) + b*relu(b - a))
 
 # Test the max_pooling_with_relu function
 a = np.array([1, 2, 3, 4, 5])
