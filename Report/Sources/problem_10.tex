@@ -1,3 +1,43 @@
 % !TeX spellcheck = en_US
 \section{Problem 10}
 
+We are given the following optimization method:
+\begin{equation}
+\begin{array}{l}{{g_{t+1}\ \leftarrow\beta\cdot g_{t}+(1-\beta)\cdot\nabla \hat{L}_{t}(\theta_{t})}}\\ {{\theta_{t+1}\ \leftarrow\theta_{t}-\alpha\left[(1-\nu)\cdot\nabla\hat{L}_{t}(\theta_{t})+\nu\cdot g_{t+1}\right]}}\end{array}
+\label{eq:qhm_equation}
+\end{equation}
+, where $\alpha,\ \beta, \nu \in \Re$ and $\alpha$ is the learning rate.
+$\hat{L}_{t}\left(\theta_{t}\right)$ represents a loss function which is minimized via $\theta$.\\
+
+When examining the equation, we start to see a relation with SGD, but with some extra elements on the equation.
+If we set $\mathbf{\left(\beta, \nu\right) = \left(0,1\right)}$ in order to eliminate some of the elements, we get the following expression:
+\[
+\left\{
+\begin{array}{l}
+	g_{t+1} \leftarrow \nabla \hat{L}_{t}\left(\theta_{t}\right)\\
+	\theta_{t+1}\leftarrow\theta_{t}-\alpha \cdot g_{t+1}
+\end{array}
+\right\} \ =\  \theta_{t+1} \leftarrow \theta_{t} - \alpha \nabla \hat{L}_{t} \left(\theta_{t}\right)
+\]
+
+\underline{This is exactly the update rule of SGD} (\textit{Stochastic Gradient Descent}) found in our lectures, parameterized by $\alpha$.
+We can get the SGD's update rule with one more pair of $\left(\beta, \nu  \right)$ values. By setting $\mathbf{\left(\beta, \nu\right) = \left(0,0\right)}$, we effectively eliminate term $g_{t+1}$. So, we get:
+\[
+\theta_{t+1}\leftarrow\theta_{t}-\alpha\cdot\nabla\hat{L}_{t}(\theta_{t})
+\]
+which is again the update rule for SGD.
+
+Another form of the famous SGD is SGD with momentum, and has the following update rule:
+\[
+\begin{array}{l}
+	{{g_{t+1}\leftarrow\beta\cdot g_{t}+(1-\beta) \cdot \nabla \hat{L}_{t}(\theta_{t})}}\\ {{\theta_{t+1}\leftarrow\theta_{t}-\alpha\cdot g_{t+1}}}
+	\end{array}
+\]
+\\
+SGD with momentum is an extension of the basic stochastic gradient descent algorithm, designed to accelerate learning, especially in the context of high curvature, small but consistent gradients, or noisy gradients. \\
+In this extension, instead of using only the gradient of the current step to guide the learning process, we also take into account the gradient of the previous steps. This is typically done by keeping a running average of the gradients.\\
+
+By looking the equation~\ref{eq:qhm_equation}, \underline{we can clearly obtain the update rule of SGD with momentum} easily. We just need to remove the term $\left(1 -\nu \right) \cdot \nabla \hat{L}_{t}\left(\theta_{t}\right)$ from $\theta_{t+1}$ and we will get the update rule of SGD with momentum.
+This term is zeroed only when $\nu = 1$ and term $\beta$ is necessary in the update rule, thus a pair of values $\mathbf{\left(\beta, \nu\right) = \left(\beta, 1\right)}$.\\
+
+Unfortunately, we cannot extract any other familiar optimization method because they introduce sums and other complex operations in the update rule but the given method does not contain any of those. This formula represents a single, unified optimization method that \underline{is a variation of SGD} with momentum, rather than multiple distinct methods that can be extracted.
