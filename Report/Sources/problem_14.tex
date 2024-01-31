@@ -52,8 +52,9 @@ Moving on to \textbf{Layer 3}, it's important to note that this layer doesn't ha
 In this case, Layer's 2 output is reduces to $46 \times 46 \times 100$  from $92 \times 92 \times 100$.\\
 
 \textbf{Layer 4} is a dense (\textit{fully connected}) layer with an input that of the max pool layer. Before it connects with the max pool layer, the data must be converted from multi-dimensional array into a one-dimensional array.
-After this is done, the input data of layer 4 have a size of $46 \times 46 \times 100 = \num{211600}$. So, in order to calculate the weights and biases, we only need two information: the number of neurons ($100$) and the number of neurons of the previous layer ($\num{211600}$).
-The equation for total weights of this layer is: $\textit{number of neurons} \times \textit{number of neurons of the previous layer} + \textit{number of neurons} = 100 \times 211600 + 100 = 21160100$. \\ 
+After this is done, the input data of layer 4 have a size of $46 \times 46 \times 100 = \num{211600}$. So, in order to calculate the weights and biases, we only need two information: the number of neurons ($100$) and the number of neurons of the previous layer ($\num{211600}$).\\
+The equation for total weights of this layer is: \\
+$\textit{number of neurons} \times \textit{number of neurons of the previous layer} + \textit{number of neurons} = 100 \times 211600 + 100 = 21160100$. \\ 
 
 \textbf{Layer 5} is also a dense layer and the procedure for calculating the weights is the same as above. 
 We have $100$ units in this layer and $100$ in the last one, so total weights are: $100 \times 100 + 100 = \num{10100}$. \\
@@ -67,3 +68,4 @@ The total number of weights is:
 = \num{2600} + \num{250100} + \num{21160100} + \num{10100} + \num{101} = \\  =\mathbf{\num{21423001}} \text{ weights}
 \end{gathered}
 \]
+\vspace{3mm}
