@@ -1,0 +1,19 @@
+% !TeX spellcheck = en_US
+\section{Problem 8}
+Adadelta is another variant of the AdaGrad algorithm. The main difference lies in the fact that it decreases the amount by which the learning rate is adaptive to coordinates. Moreover, traditionally it referred to as not having a learning rate since it uses the amount of change itself as calibration for future change. Adadelta is an extension to the Gradient Descent Optimization Algorithm. Although, it is better understood as an extension of the AdaGrad and RMSProp algorithms. \\
+
+All things considered, in this exercise we are given the following function:
+\begin{equation}
+	F(w) = 0.1w_1^2 + 2w_2^2
+\end{equation}
+\label{eq:Funcproblem8}
+\vspace{2mm}
+
+\subsection{Question A}
+To find the minimum of the Function~\ref{eq:Funcproblem8} using the AdaDelta optimizer, instead of the gradient descent, we need to iteratively update the weights $w_1$ and $w_2$ based on the optimizer's rules. ADADELTA is an adaptive learning rate optimization algorithm that adjust the learning rate during training.\\
+
+The Adadelta algorithm has two main parameters: $\rho$ and $e$. We will set:
+\begin{itemize}
+	\item $\rho = 0.9$
+	\item $e = 10^{-6}$ , a small value 
+\end{itemize}
