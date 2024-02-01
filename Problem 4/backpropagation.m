@@ -1,17 +1,34 @@
-function [W1_init, b1_init, W2_init, b2_init] = backpropagation (S, learning_rate)
+function backpropagation (S, learning_rate)
 
     % Define network structure
 
     % Initialize weights and biases
     W1 = rand(S, 1) - 0.5;
     b1 = rand(S, 1) - 0.5;
-    W2 = rand(1, S) - 0.5;
-    b2 = rand(1, 1) - 0.5;
+    % W2 = rand(1, S) - 0.5;
+    W2 = rand(1, S);
+    % b2 = rand(1, 1) - 0.5;
+    b2 = rand(1, 1);
 
-    W1_init = W1;
-    b1_init = b1;
-    W2_init = W2;
-    b2_init = b2;
+    % W1_init = W1;
+    % b1_init = b1;
+    % W2_init = W2;
+    % b2_init = b2;
+
+    fprintf('* W1\n')
+    for i = 1:length(W1)
+        fprintf('\t* %g\n', W1(i));
+    end
+    fprintf('* b1\n');
+    for i = 1:length(b1)
+        fprintf('\t* %g\n', b1(i));
+    end
+    fprintf('* W2\n');
+    for i = 1:length(W2)
+        fprintf('\t* %g\n', W2(i));
+    end
+    fprintf('* b2\n\t* %g\n', b2);
+    fprintf('---------------\n');
 
     MAX_EPOCHS = 1000;
 
@@ -53,8 +70,8 @@ function [W1_init, b1_init, W2_init, b2_init] = backpropagation (S, learning_rat
     % Plot
     figure;
     plot(p_test, a2_test, 'r-', p_test, 1 + sin(3 * pi * p_test / 8), 'b--');
-    legend('Network Output', 'Target Function');
+    legend('Network Output', 'Target Function', 'Location', 'best');
     title(sprintf('1-%d-1 Network Approximation w/ a=%g', S, learning_rate));
     xlabel('p');
-    ylabel('g(p)');
+    ylabel('g(p)'); 
 end
