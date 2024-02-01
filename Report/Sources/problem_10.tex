@@ -11,6 +11,7 @@ $\hat{L}_{t}\left(\theta_{t}\right)$ represents a loss function which is minimiz
 
 When examining the equation, we start to see a relation with SGD, but with some extra elements on the equation.
 If we set $\mathbf{\left(\beta, \nu\right) = \left(0,1\right)}$ in order to eliminate some of the elements, we get the following expression:
+
 \[
 \left\{
 \begin{array}{l}
@@ -19,6 +20,7 @@ If we set $\mathbf{\left(\beta, \nu\right) = \left(0,1\right)}$ in order to elim
 \end{array}
 \right\} \ =\  \theta_{t+1} \leftarrow \theta_{t} - \alpha \nabla \hat{L}_{t} \left(\theta_{t}\right)
 \]
+\vspace{1mm}
 
 \underline{This is exactly the update rule of SGD} (\textit{Stochastic Gradient Descent}) found in our lectures, parameterized by $\alpha$.
 We can get the SGD's update rule with one more pair of $\left(\beta, \nu  \right)$ values. By setting $\mathbf{\left(\beta, \nu\right) = \left(0,0\right)}$, we effectively eliminate term $g_{t+1}$. So, we get:
