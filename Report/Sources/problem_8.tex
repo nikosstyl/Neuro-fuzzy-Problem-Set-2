@@ -85,3 +85,25 @@ To conclude, to point out the operation of the AdaDelta algorithm, we will plot 
 \vspace{2mm}
 
 \subsection{Question B}
+As previously mentioned, in the AdaDelta optimization algorithm, the learning rate is adaptively changed based on the running average of the recent gradients and the recent parameter updates. This is different from many other optimization algorithms where the learning rate is a fixed hyperparameter.\\
+But, in this example we will show once again how by implementing some tricks we can still define it and observe how it can affect the algorithm's trajectory.\\
+
+On the previous question, we plotted the algorithm's trajectory for learning rate $\alpha=0.4$. When we change it to $\alpha=3$ we can remark some crucial points.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\textwidth]{../Problem 8/ADADELTA_3.pdf}
+	\caption{AdaDelta algorithm and trajectory with learning rate $\alpha=3$}
+	\label{fig:lr=3}
+\end{figure}
+\vspace{2mm}
+
+In drawing things to a close, based on Figure~\ref{fig:lr=0.4} and Figure~\ref{fig:lr=3} we can evaluate the impact of the learning rate and to take a closer look on the algorithm.\\
+
+In both plots, the contours represent levels of the function $F(w)$ with each line indicating the points where the function has the same value. The closer the lines, the steeper the gradient at that point. The central region where the lines are more widely spaced indicates the minimum of the function.\\
+
+The observation that we can highlight is the speed of convergence. A larger learning rate generally means that the optimizer makes larger steps in the parameter space. If the learning rate is set appropriately, this can lead to faster convergence to the minimum of the function. Though, there is a big risk of overshooting the minimum, which means that the optimizer could oscillate around the minimum, or in the worst case, to diverge.\\
+Dissimilar to it, in Figure~\ref{fig:lr=3}, it appears that the AdaDelta optimizer with a higher learning rate has discovered a trajectory that approaches the function's central minimum more closely. This suggests that effective parameter space exploration has been made possible by the higher learning rate without leading to instability in the optimization procedure. With the same number of iteration, we accomplished the best convergence with a higher learning rate.
+\vspace{2mm}
+
+\subsection{Question C}
+

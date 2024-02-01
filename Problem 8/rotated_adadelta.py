@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 import numpy as np
 
-# Define the function F(w)
+# Define the new function F(w)
 def F(w):
-    return 0.1*w[0]**2 + 2*w[1]**2
+    return 0.1*(w[0] + w[1])**2 + 2*(w[0] - w[1])**2
 
 # Reinitialize parameters for AdaDelta (without a fixed learning rate alpha)
 w = torch.tensor([2.0, 2.0], requires_grad=True)  # Initial guess
@@ -13,7 +13,7 @@ St = torch.zeros(2)    # Running average of squared gradients
 Edelta = torch.zeros(2) # Running average of squared parameter updates
 rho = 0.9
 epsilon = 1e-6
-lr = 3.0
+lr = 0.4
 
 # Store the trajectory for plotting
 trajectory_adadelta = [w.detach().numpy().copy()]
@@ -21,6 +21,7 @@ trajectory_adadelta = [w.detach().numpy().copy()]
 # AdaDelta optimization (without fixed learning rate alpha)
 for _ in range(300):
     loss = F(w)
+   
     loss.backward()  # Compute the gradient
     grad = w.grad  # Get the gradient
     with torch.no_grad():  # Update weights without tracking gradients
@@ -36,6 +37,10 @@ for _ in range(300):
     # w.add_(-lr * update)  # Update weights in-place
     # w = w - lr*update
     trajectory_adadelta.append(w.detach().numpy().copy())
+    num_iterations = len(trajectory_adadelta) - 1
+
+    print(num_iterations)
+
 
 # Create a grid of points for the contour plot
 x = np.linspace(-2.5, 2.5, 100)
@@ -51,4 +56,3 @@ plt.title('Contour Plot and Trajectory of AdaDelta on F(w)')
 plt.xlabel('$w_1$')
 plt.ylabel('$w_2$')
 plt.show()
-
