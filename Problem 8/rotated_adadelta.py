@@ -11,17 +11,20 @@ def F(w):
 w = torch.tensor([2.0, 2.0], requires_grad=True)  # Initial guess
 St = torch.zeros(2)    # Running average of squared gradients
 Edelta = torch.zeros(2) # Running average of squared parameter updates
+tol = 1e-6      # Define the tolerance for convergence
 rho = 0.9
 epsilon = 1e-6
 lr = 0.4
+
+counter = 0  # Counter for the number of iterations
 
 # Store the trajectory for plotting
 trajectory_adadelta = [w.detach().numpy().copy()]
 
 # AdaDelta optimization (without fixed learning rate alpha)
-for _ in range(300):
+for _ in range(2000):
+    counter += 1
     loss = F(w)
-   
     loss.backward()  # Compute the gradient
     grad = w.grad  # Get the gradient
     with torch.no_grad():  # Update weights without tracking gradients
@@ -32,27 +35,30 @@ for _ in range(300):
         w_new = (w - lr * update).clone().detach().requires_grad_(True)
         # w_new = w - lr * update
         w.grad.zero_()  # Reset the gradient to zero for the next iteration
-    
+
+        # Check for convergence
+        if torch.norm(w_new - w) < tol:
+            print("Converged after {} iterations".format(counter))
+            break
+
     w = w_new
-    # w.add_(-lr * update)  # Update weights in-place
-    # w = w - lr*update
     trajectory_adadelta.append(w.detach().numpy().copy())
     num_iterations = len(trajectory_adadelta) - 1
 
-    print(num_iterations)
-
+# Print the final value of w
+print("Converged to:", w.detach().numpy())
 
 # Create a grid of points for the contour plot
 x = np.linspace(-2.5, 2.5, 100)
 y = np.linspace(-2.5, 2.5, 100)
 X1, X2 = np.meshgrid(x, y)
-F_values = 0.1*X1**2 + 2*X2**2
+F_values = 0.1*(X1+X2)**2 + 2*(X1-X2)**2
 
 # Create contour plot for AdaDelta trajectory
 plt.figure(figsize=(8, 6))
 plt.contour(X1, X2, F_values, levels=50, cmap='viridis')
 plt.plot(np.array(trajectory_adadelta)[:, 0], np.array(trajectory_adadelta)[:, 1], 'b.-')  # Blue dots for the trajectory
-plt.title('Contour Plot and Trajectory of AdaDelta on F(w)')
+plt.title('Contour Plot and Trajectory of Rotated AdaDelta on F(w)')
 plt.xlabel('$w_1$')
 plt.ylabel('$w_2$')
 plt.show()
