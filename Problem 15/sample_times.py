@@ -14,11 +14,17 @@ def calculate_times(image, kernel, delta):
 
     # Method 2: Read a k + Δ wide strip and compute a Δ-wide output strip
     start_time = time.time()
+    delta = max(delta, kernel.shape[1])  # Ensure that Δ is at least as large as the width of the kernel
     for i in range(0, image.shape[1] - kernel.shape[1] + 1, delta):
         strip = image[:, i:i+kernel.shape[1]+delta]
-        output = signal.convolve2d(strip, kernel, mode='valid')
+        output_strip = strip[:, -delta:]  # Get the last Δ columns of the strip
+        output = signal.convolve2d(output_strip, kernel, mode='valid')
     time2 = time.time() - start_time
-
+    # start_time = time.time()
+    # for i in range(0, image.shape[1] - kernel.shape[1] + 1, delta):
+        # strip = image[:, i:i+kernel.shape[1]+delta]
+        # output = signal.convolve2d(strip, kernel, mode='valid')
+    # time2 = time.time() - start_time
     return time1, time2
 
 def write_times_to_file(kernel, time1, time2,iteration,kernels):
@@ -37,9 +43,10 @@ def main():
 
     # Create a series of 3x3, 7x7 and 11x11 filters(kernels) with random values
     kernels = [np.random.rand(k, k) for k in [3, 7, 11]]
+    # kernels = [np.ones((k, k)) for k in [3, 7, 11]]
 
     # You can adjust this value
-    delta = 2 
+    delta = 4
 
     for kernel in kernels:
         times1 = []
@@ -54,6 +61,13 @@ def main():
             print("Method 2 execution time for this kernel: ", time2)
             print("Difference in time: ", abs(time1 - time2))
             write_times_to_file(kernel, time1, time2,i+1,kernels)  # Pass the list of kernels to the function
+
+        # Calculate the average execution time for each method
+        avg_time1 = np.mean(times1)
+        avg_time2 = np.mean(times2)
+
+        print("Average execution time for Method 1: ", avg_time1)
+        print("Average execution time for Method 2: ", avg_time2)
 
         # Plot the times for this kernel
         plt.figure()

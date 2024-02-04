@@ -1,2 +1,33 @@
 % !TeX spellcheck = en_US
 \section{Problem 15}
+\subsection{Question A}
+Reducing computing time and resource consumption through efficient techniques is necessary for implementing rapid convolutions in image processing or deep learning activities. Convolution of an image with a $k x k$ kernel is a popular technique. There are quite some techniques to implement it. In this exercise we will examine two of them.\\
+One method is to scan horizontally across the source, reading a $k-wide$ strip and computing
+the 1-wide output strip one value at a time.\\
+Another alternative, possibly more effective approach is to read a $k + \Delta$ wide strip
+and compute a $\Delta-wide$ output strip. \\
+Due to the fact that it can eliminate pointless calculations, enhance memory access patterns and make better use of hardware acceleration features, this alternative method is frequently chosen. The selection of $\Delta$, however, is crucial since an excessively high value could result in higher memory needs and lower performance gains. Thus, the ideal choice of $\Delta$ strikes a balance between computational effectiveness and memory and hardware limitations.
+\\
+
+In more details, this approach is often known as “vectorized convolution” or “strip mining” and it can lead to more efficient convolution operations.
+
+Here are some advantages of the alternative approach and why the latter is preferred:
+\begin{itemize}
+	\item \underline{Memory Access Pattern}\\
+	This approach reads a wider strip of input data, $k+\Delta wide$, all at once, increasing the amount of data reuse. In comparison to reading $k-wide$ strips repeatedly, this can make greater use of memory hierarchy and cache, reducing the amount of memory accesses.
+	\item \underline{Parallelization}\\
+	The wider strip allows for more opportunities for parallelism since we can perform computations for multiple output values simultaneously. This can be beneficial for optimizing computations on modern hardware, like GPUs or parallel CPU architectures that have vectorized instructions and perform the same operation on multiple data points in parallel. We can make better use of these vectorized processes by computing an $\Delta-wide$ output strip, which will allow you to process several outputs in parallel and greatly improve computational performance.
+	\item \underline{Reduced Overhead}\\
+	Reading a larger strip of input data with fewer iterations, reduces loop overhead and branching, which can lead to improved performance.
+	\item \underline{Input/Output Bandwidth Utilization}\\
+	As the overhead of each read operation is reduced, reading data in bigger chunks can make better use of the memory bandwidth.
+\end{itemize}
+
+However, there is a limit to how large we should choose the valued of $\Delta$, and it depends on various factors, such as memory constraints, cache size and hardware architecture. By increasing $\Delta$ too much it could lead to increased memory usage and cache trashing, negating the benefits of the approach. Larger $\Delta$ values require more memory to store the wider strips of the input image and intermediate computation results. Moreover, a larger $\Delta$ requires more computation to process the wider strip, which might introduce additional overhead and in the end it may not yield significant performance improvements.\\
+
+Everything considered, finding a balance between the advantages of more parallelism and data reuse and the possible disadvantages of more memory and processing is crucial. We could find the best option for the value of $\Delta$ by profiling and experimenting with various values on the particular hardware we are targeting. In practice, finding the ideal $\Delta$ often involves empirical testing and optimization based on the specific application and hardware configuration. \\
+
+Overall, the alternative approach of reading a $k + \Delta$ wide strip and computing a $\Delta-wide$ output strip is preferable due to improved memory access patterns, increased parallelism, and reduced overhead. However, the choice of $\Delta$ should be carefully considered based on hardware limitations and performance trade-offs.
+\vspace{3mm}
+
+\subsection{Question B}
