@@ -1,28 +1,41 @@
-function backpropagation 
+function backpropagation (export_figs)
+
+    if nargin < 1
+        export_figs = false;
+    end
 
     % s = [2 8 12];
-    s=12;
-    % lr = [0.1 0.01 0.001];
-    lr = 0.01;
+    s=2;
+    % lr = [0.1 0.01 0.03 0.001];
+    lr = 0.03;
     
     for i=s
         for j=lr
-            calc_backpropagation(i, j);
+            failed_num = 0;
+            failed = calc_backpropagation(i, j, export_figs);
+            failed_num = failed_num + 1;
+            while failed
+                failed = calc_backpropagation(i, j, export_figs);
+                failed_num = failed_num + 1;
+                if failed_num > 10
+                    error('Failed 10 times in a row')
+                end
+            end
         end
     end
 
 end
 
 
-function calc_backpropagation (S, learning_rate)
+function failed = calc_backpropagation (S, learning_rate, export_figs)
 
     fprintf('1-%d-1 Network, S = %d, lr = %g\n', S, S, learning_rate);
 
     % Initialize weights and biases
-    W1 = rand(S, 1) ; %- 0.5;
-    b1 = rand(S, 1) ; %- 0.5;
-    W2 = rand(1, S) ; %- 0.5;
-    b2 = rand(1, 1) ; %- 0.5;
+    W1 = rand(S, 1) - 0.5;
+    b1 = rand(S, 1) - 0.5;
+    W2 = rand(1, S) - 0.5;
+    b2 = rand(1, 1) - 0.5;
 
     fprintf('* W1\n')
     for i = 1:length(W1)
@@ -45,19 +58,12 @@ function calc_backpropagation (S, learning_rate)
     p = linspace(-2, 2, 200)';
     g = 1 + sin(3 * pi * p / 8);
 
-    e = zeros(1, MAX_EPOCHS);
+    err_max = zeros(1, MAX_EPOCHS);
 
-    convergence_threshold = 1e-5;
-
-    w2_f = figure;
-    w2_f.Name = sprintf('W2 vs. Epochs w/ a=%g', learning_rate);
-    w2_f_ax = axes;
-    w2_f_ax.Title.String = 'W2 vs. Epochs';
-    hold(w2_f_ax, "on");
+    convergence_threshold = 2e-3;
 
     % Training
     for epoch = 1:MAX_EPOCHS
-        sum_squared_error = 0;
         for i = 1:length(p)
             % Forward pass
             n1 = W1 * p(i) + b1;
@@ -67,16 +73,18 @@ function calc_backpropagation (S, learning_rate)
             a2 = relu(n2);
 
             % Backpropagation
-            e(epoch) = g(i) - a2;
-            sum_squared_error = sum_squared_error + e(epoch)^2; 
+            e = g(i) - a2;
 
             df2 = relu_derivative(n2);
             
-            s2 = -2*e(epoch)*df2;
+            s2 = -2*e*df2;
             s1 = logsig_derivative(n1) .* W2' .* s2;
 
             if s2 == 0 && epoch == 1
-                error('s2 is 0')
+                % error('s2 is 0')
+                fprintf('s2 is 0\n\n')
+                failed = true;
+                return;
             end            
 
             % Update weights and biases
@@ -86,28 +94,26 @@ function calc_backpropagation (S, learning_rate)
             b1 = b1 - learning_rate * s1;
         end
 
-        plot(w2_f_ax, epoch, W2(1), 'bx', epoch, W2(2), 'ro');
-        e(epoch) = sum_squared_error / length(g);
-
-
         a1_error = logsig(W1 * p' + b1);
         a2_error = max(0, W2 * a1_error + b2);
 
-        err  = abs(a2_error - g);
-        if abs(max(err)) < convergence_threshold
+        err = abs(a2_error' - g).^2;
+        err_max(epoch) = sqrt(mean(err));
+
+        if err_max(epoch) < convergence_threshold
             fprintf('Converged at epoch %d\n', epoch);
             break;
         end
-        % if abs(e(epoch) - old_error) < convergence_threshold
-        %     fprintf('Converged at epoch %d\n', epoch);
-        %     break;
-        % end
-        % old_error = e(epoch);
     end
 
+    failed = false;
+
     % Plot error
-    figure;
-    plot(1:MAX_EPOCHS, e, 'LineWidth', 2);
+    fig = figure("Name", sprintf('1-%d-1 NN w/ a=%g', S, learning_rate));
+    tiledlayout(fig, 2, 1);
+    nexttile;
+    plot(1:MAX_EPOCHS, err_max, 'LineWidth', 2);
+    % semilogy(1:MAX_EPOCHS, err_max, 'LineWidth', 2); % Use this for better visualization in smaller values
     title(sprintf('Error vs. Epochs w/ a=%g', learning_rate));
     xlabel('Epochs');
     ylabel('Error');
@@ -115,15 +121,20 @@ function calc_backpropagation (S, learning_rate)
     
     % Test the network
     a1_test = logsig(W1 * p' + b1);
-    a2_test = max(0, W2 * a1_test + b2);
+    a2_test = relu(W2 * a1_test + b2);
 
-    % Plot
-    figure;
+    % figure;
+    nexttile;
     plot(p, a2_test, '-', p, g, '--', 'LineWidth', 2);
     legend('Network Output', 'Target Function', 'Location', 'best');
     title(sprintf('1-%d-1 Network Approximation w/ a=%g', S, learning_rate));
     xlabel('p');
-    ylabel('g(p)'); 
+    ylabel('g(p)');
+    grid('on');
+
+    if export_figs == true
+        exportgraphics(fig, sprintf('nn_images/1-%d-1_NN_a=%g.pdf', S, learning_rate), "ContentType", "vector");
+    end
 end
 
 % My implementation of ReLU
