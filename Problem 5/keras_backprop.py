@@ -31,7 +31,7 @@ def build_model(hidden_units, learning_rate, dropout_rate):
                                   bias_initializer=RandomUniform(-0.5, 0.5))
     
     model.add(first_layer)
-    # model.add(middle_layer)
+    model.add(middle_layer)
     model.add(second_layer)
     
     optimizer = keras.optimizers.SGD(learning_rate=learning_rate)
@@ -51,6 +51,8 @@ dropout_rates = [0.15, 0.25, 0.35]
 MAX_EPOCHS = 10000
 
 early_stopping = EarlyStopping(monitor='loss', patience=20)
+
+export_figs = True
 
 # Experiment with different configurations
 for dropout in dropout_rates:
@@ -83,5 +85,8 @@ for dropout in dropout_rates:
     ax2.set_xlabel('p')
     ax2.set_ylabel('g(p)')
     ax2.grid(True)
+
+    if export_figs:
+        plt.savefig(f'nn_1_12_1_{dropout}.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
