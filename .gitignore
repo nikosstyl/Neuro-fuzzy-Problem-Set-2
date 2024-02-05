@@ -27,3 +27,6 @@ svg-inkscape/
 *.log
 *.asv
 *.synctex(busy)
+
+# Vscode folders
+.vscode/
