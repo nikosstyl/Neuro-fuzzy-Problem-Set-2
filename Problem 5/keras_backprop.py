@@ -1,3 +1,4 @@
+import sys
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Disable all debugging logs
 import tensorflow as tf
@@ -38,55 +39,70 @@ def build_model(hidden_units, learning_rate, dropout_rate):
     model.compile(optimizer=optimizer, loss='mean_squared_error')
     return model
 
-# Generate training data
-p_train = np.linspace(-2, 2, 300)
-g_train = target_function(p_train)
+def backpropagation(export_figs):
+    # Generate training data
+    p_train = np.linspace(-2, 2, 300)
+    g_train = target_function(p_train)
 
-# Training configurations
-hidden_unit = 12
-lr = 0.1
-dropout_rates = [0.15, 0.25, 0.35]
-# dropout_rates = [0.15]
+    # Training configurations
+    hidden_unit = 12
+    lr = 0.1
+    # dropout_rates = [0.15, 0.25, 0.35]
+    dropout_rates = [0.15]
 
-MAX_EPOCHS = 10000
+    MAX_EPOCHS = 10000
 
-early_stopping = EarlyStopping(monitor='loss', patience=20)
+    early_stopping = EarlyStopping(monitor='loss', patience=120)
 
-export_figs = True
+    # Experiment with different configurations
+    for dropout in dropout_rates:
+        print(f"\nTraining with dropout rate: {dropout}\n")
 
-# Experiment with different configurations
-for dropout in dropout_rates:
-    print(f"\nTraining with dropout rate: {dropout}\n")
+        model = build_model(hidden_unit, lr, dropout)
 
-    model = build_model(hidden_unit, lr, dropout)
+        # Train the model
+        history = model.fit(p_train, g_train, epochs=MAX_EPOCHS, batch_size=1, verbose=1, callbacks=[early_stopping], use_multiprocessing=True)
+        
+        # Plot the results
+        # plt.figure()
+        f, (ax1,ax2) = plt.subplots(2,1, layout='constrained')
 
-    # Train the model
-    history = model.fit(p_train, g_train, epochs=MAX_EPOCHS, batch_size=1, verbose=1, callbacks=[early_stopping], use_multiprocessing=True)
+        ax1.plot(history.history['loss'])
+        ax1.set_title(f'Error over epochs')
+        ax1.set_xlabel('Epochs')
+        ax1.set_ylabel('Loss')
+        ax1.grid(True)
+
+        # Predict and plot the function approximation
+        p_test = np.linspace(-2, 2, 100)
+        g_pred = model.predict(p_test)
+        
+        # plt.figure()
+        ax2.plot(p_test, g_pred, '-', label=f'Predicted')
+        ax2.plot(p_test, target_function(p_test), '--', label='Target')
+        ax2.legend()
+        ax2.set_title(f'Function Approximation with dropout rate = {dropout}')
+        ax2.set_xlabel('p')
+        ax2.set_ylabel('g(p)')
+        ax2.grid(True)
+
+        if export_figs:
+            plt.savefig(f'nn_1_12_1_{dropout}.pdf', format='pdf', bbox_inches='tight')
+    plt.show()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 2:
+        print(f'{sys.argv[0]}: error: Invalid number of arguments')
+        print(f'\tUsage: python3 {sys.argv[0]} (optional: export_figs=true/false)')
+        exit(1)
     
-    # Plot the results
-    # plt.figure()
-    f, (ax1,ax2) = plt.subplots(2,1, layout='constrained')
+    for i in range(len(sys.argv)):
+        sys.argv[i] = sys.argv[i].lower()
 
-    ax1.plot(history.history['loss'])
-    ax1.set_title(f'Error over epochs')
-    ax1.set_xlabel('Epochs')
-    ax1.set_ylabel('Loss')
-    ax1.grid(True)
+    export_figs = False
 
-    # Predict and plot the function approximation
-    p_test = np.linspace(-2, 2, 100)
-    g_pred = model.predict(p_test)
+    if 'export_figs=true' in sys.argv:
+        export_figs = True
     
-    # plt.figure()
-    ax2.plot(p_test, g_pred, '-', label=f'Predicted')
-    ax2.plot(p_test, target_function(p_test), '--', label='Target')
-    ax2.legend()
-    ax2.set_title(f'Function Approximation with dropout rate = {dropout}')
-    ax2.set_xlabel('p')
-    ax2.set_ylabel('g(p)')
-    ax2.grid(True)
-
-    if export_figs:
-        plt.savefig(f'nn_1_12_1_{dropout}.pdf', format='pdf', bbox_inches='tight')
-
-plt.show()
+    backpropagation(export_figs)
