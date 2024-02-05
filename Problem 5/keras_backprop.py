@@ -3,6 +3,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Disable all debugging logs
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
+from keras.layers import Dropout
 
 USE_TF = True
 
@@ -28,7 +29,7 @@ def build_model(hidden_units, learning_rate):
                                   bias_initializer=keras.initializers.RandomUniform(-0.5, 0.5))
     
     model.add(first_layer)
-    # model.add(middle_layer)
+    model.add(middle_layer)
     model.add(second_layer)
     
     optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
@@ -40,10 +41,11 @@ p_train = np.linspace(-2, 2, 300).reshape(-1, 1)
 g_train = target_function(p_train)
 
 # Training configurations
+hidden_units = 12
 hidden_layer_configs = [12]
-learning_rates = [0.01]
+learning_rates = [0.1]
 
-MAX_EPOCHS = 1000
+MAX_EPOCHS = 40000
 
 # Experiment with different configurations
 for hidden_units in hidden_layer_configs:
@@ -53,7 +55,7 @@ for hidden_units in hidden_layer_configs:
         model = build_model(hidden_units, lr)
 
         # Train the model
-        history = model.fit(p_train, g_train, epochs=MAX_EPOCHS, batch_size=MAX_EPOCHS, shuffle=True)
+        history = model.fit(p_train, g_train, epochs=MAX_EPOCHS, batch_size=hidden_units, shuffle=True)
         
         # Plot the results
         plt.figure()

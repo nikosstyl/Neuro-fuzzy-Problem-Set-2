@@ -31,3 +31,56 @@ Overall, the alternative approach of reading a $k + \Delta$ wide strip and compu
 \vspace{3mm}
 
 \subsection{Question B}
+We will attempt to apply and test these two approaches in relation to one another. For this reason, we will construct a random sample image of size $228 x 228$. A sequence of random $3x3$, $7x7$, and $11x11$ kernels will then convolve with this image. We can have a better understanding of the two options and the reasons for the preference for the second one by comparing their execution times.\\
+
+We will extract our results from the \textit{"sample\_times.py"} code.
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.45\linewidth}
+		\includegraphics[width=\linewidth]{../Problem 15/figure_kernel3.pdf}
+		\caption{Plot for $3x3$ kernel}
+		\label{fig:sample_kernel3}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+		\includegraphics[width=\linewidth]{../Problem 15/figure_kernel7.pdf}
+		\caption{Plot for $7x7$ kernel}
+		\label{fig:sample_kernel7}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+		\includegraphics[width=\linewidth]{../Problem 15/figure_kernel11.pdf}
+		\caption{Plot for $11x11$ kernel}
+		\label{fig:sample_karnel11}
+	\end{subfigure}
+	%\caption{Plots for }
+\end{figure}
+
+The provided plots offer a visual representation of the performance metrics for each method,allowing us to discern patterns and draw conclusions. With these visual data points we will analyze with more details the execution times.\\
+
+\textbf{For 3x3 kernel}
+\begin{itemize}
+		\item \underline{Method 1}: The execution times start relatively high and show a notable peak at iteration two. This could indicate that for small kernel sizes, the method's overhead associated with reading data and computing the output sequentially impacts performance negatively. This peak may suggest a temporary computational load or caching issue that affected the performance at this specific point. Following the peak, there is a slight reduction in the execution time for subsequent iterations, which could indicate some level of caching benefit as the computation progresses.
+		\item \underline{Method 2}: The consistent low execution times suggest that reading a $k+\Delta$ wide strip and computing a $\Delta-wide$ output is significantly more efficient. The method likely benefits from increased data locality, allowing for better utilization of cache hierarchies and minimizing the number of memory accesses required. It shows a remarkably consistent execution time across all iterations, reinforcing its efficient use of resources and possibly better memory access patterns.
+\end{itemize}
+
+\textbf{For 7x7 kernel}	
+\begin{itemize}
+		\item \underline{Method 1}: As the kernel size increases, the execution times for Method 1 also rise. There is a steady increase in execution time from the first to the fifth iteration, with the peak occurring at the fifth iteration and continuing increasing.  This pattern implies that the performance of the approach deteriorates with increasing kernel size, most likely because of higher computational load and more frequent memory access conflicts.
+		\item \underline{Method 2}: Remarkably, this method shows an incremental rise in execution time but remains substantially faster that Method 1. It maintains a remarkably consistent and low execution time throughout all iterations. This resilience to increased kernel size suggests that Method 2 efficiently manages the additional computational complexity, potentially through better parallelization, without significant impact on performance..
+\end{itemize}
+
+\textbf{For 11x11 kernel}
+\begin{itemize}
+	\item \underline{Method 1}: The continued upward pattern in execution time for larger kernels confirms the method's limited scalability. Method 1 starts with a higher execution time in the first iteration, which then remains relatively flat for subsequent iterations. The significant increase from 7x7 to 11x11 kernels suggests that the method may be approaching a computational bottleneck, possibly due to an exponential increase in the number of operations required.
+	\item \underline{Method 2}: Even at this larger kernel size, Method 2's execution time increases only slightly, maintaining a considerable lead over Method 1. Method 2 exhibits a very stable and low execution time across all five iterations, with no noticeable increase or decrease. This indicates a near-linear scalability, likely due to the method's effective amortization of the computational and memory access costs over a larger output strip.
+\end{itemize}		
+
+The major differences in efficiency and scalability between the two approaches are made clear by this in-depth examination of the supplied charts. For the purpose of this exercise and in general for computational neural networks and image processing we can truly understand why Method 2 is the better choice. It is due to its consistent and better performance at all kernel sizes, its stability and low execution time at all costs. Last but not least, Method 2 can be considered more memory friendly, as it likely reduces memory bandwidth requirements and cache thrashing compared to Method 1. The consistent execution times of Method 2 across various kernel sizes support the notion of its efficient memory usage.
+	
+
+
+
+
+
+
+
