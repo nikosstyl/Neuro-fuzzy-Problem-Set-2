@@ -12,12 +12,13 @@ The idea was derived mainly from ADAGRAD in order to improve upon the two main d
 All things considered, in this exercise we are given the following function:
 \begin{equation}
 	F(w) = 0.1w_1^2 + 2w_2^2
-\end{equation}
 \label{eq:Funcproblem8}
+\end{equation}
+
 \vspace{1mm}
 
 \subsection{Question A}
-To find the minimum of the Function ~\ref{eq:Funcproblem8} using the AdaDelta optimizer, instead of the gradient descent, we need to iteratively update the weights $w_1$ and $w_2$ based on the optimizer's rules. ADADELTA is an adaptive learning rate optimization algorithm that adjust the learning rate during training. Adadelta computes a moving average of the parameter updates and the learning rate is adjusted based on this moving average.\\
+To find the minimum of the Function~\ref{eq:Funcproblem8} using the AdaDelta optimizer, instead of the gradient descent, we need to iteratively update the weights $w_1$ and $w_2$ based on the optimizer's rules. ADADELTA is an adaptive learning rate optimization algorithm that adjust the learning rate during training. Adadelta computes a moving average of the parameter updates and the learning rate is adjusted based on this moving average.\\
 
 The Adadelta algorithm has two main parameters: $\rho$ and $e$. We will set:
 \begin{itemize}
