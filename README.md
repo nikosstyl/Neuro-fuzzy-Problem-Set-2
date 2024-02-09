@@ -1,7 +1,7 @@
 ## ASKHSEIS ##
 
 * EXERCISE 1
-* EXERCISE 2
+* ~~EXERCISE 2~~
 * ~~EXERCISE 3~~
 * ~~EXERCISE 4~~
 * ~~EXERCISE 5~~
@@ -19,7 +19,7 @@
 ## NA GRAFTOUN ##
 
 * EXERCISE 1
-* EXERCISE 2 
+* ~~EXERCISE 2~~ 
 * ~~EXERCISE 3~~
 * ~~EXERCISE 4~~
 * ~~EXERCISE 5~~
