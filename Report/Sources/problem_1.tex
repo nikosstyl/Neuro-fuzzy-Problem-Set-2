@@ -39,7 +39,7 @@ The steps we have to use are specific for each iteration.
 \end{gathered}
 \]\\[3mm]
 
-where at the point $w\left(0\right) = \left[3, 3\right]^T$ we have $\nabla f(x) = \left(\begin{array}{c}
+where at the point $w\left(0\right) = \left[3, 3\right]^T$ we have $\nabla f(w) = \left(\begin{array}{c}
 	192.75 \\
 	379.5
 \end{array}\right)$\\
@@ -51,7 +51,7 @@ Using a line search algorithm (\textit{ie backtracking}), we find the optimal $\
 	\caption{Backtracking Line Search}
 	\begin{algorithmic}
 		\State Choose $\lambda > 0$, $0 < \rho < 1$, and $0 < c < 1$.
-		\While{$f(x + \lambda p) > f(x) + c \cdot \lambda \cdot \nabla f(x)^T \cdot p$}
+		\While{$f(w + \lambda p) > f(w) + c \cdot \lambda \cdot \nabla f(x)^T \cdot p$}
 		\State $\lambda \gets \rho \cdot \lambda$
 		\EndWhile
 	\end{algorithmic}
@@ -59,21 +59,21 @@ Using a line search algorithm (\textit{ie backtracking}), we find the optimal $\
 In order to use this algorithm we set $\lambda_{init} = 1, \rho=0.5, c=\num{1e-4}$.
 Thus, for $k=0$, $\lambda_0 = 0.01562$.\\
 
-\underline{Step 3: Calculate next step $x_{1}$}\\
-Now that we have $\lambda_k$, finding next $x_k$ is easy. It is calculated as
+\underline{Step 3: Calculate next step $w_{1}$}\\
+Now that we have $\lambda_k$, finding next $w_k$ is easy. It is calculated as
 \[
-x_{k+1} = x_k + \lambda_k s_k = [3\ 3]^T + 0.01562 \cdot (-425.644) = [-0.0117\  -2.9297]^T
+w_{k+1} = w_k + \lambda_k s_k = [3\ 3]^T + 0.01562 \cdot [\num{-192.75} \ \num{-379.5}]^T = [-0.0117\  -2.9297]^T
 \]
 Iteration number $k$ is updated to $k+1=1$ and search direction is updated using the equation below:
 \[
 \begin{gathered}
-	s_{k} = - \nabla f(x_k) + \omega_k \cdot s_{k-1} = [36.936 \ 80.203]^T, \quad \text{where} \\ 
-	\omega_k = \dfrac{\nabla^T f(x_k) \cdot \nabla f(x_k)}{\nabla^T f(x_{k-1}) \cdot \nabla f(x_{k-1})} = \dfrac{\left( \nabla f(x_k) \right)^2}{\left( \nabla f(x_{k-1}) \right)^2} =  0.086207
+	s_{k} = - \nabla f(w_k) + \omega_k \cdot s_{k-1} = [36.936 \ 80.203]^T, \quad \text{where} \\ 
+	\omega_k = \dfrac{\nabla^T f(w_k) \cdot \nabla f(w_k)}{\nabla^T f(w_{k-1}) \cdot \nabla f(w_{k-1})} = \dfrac{\left( \nabla f(w_k) \right)^2}{\left( \nabla f(w_{k-1}) \right)^2} =  0.086207
 \end{gathered}
 \]
 
 \underline{Step 4: Check for convergence}\\[2mm]
-$||s_k|| =  88.299 > \epsilon \approx \num{1e-6}$, thus no convergence.\\[3mm]
+$||s_k|| =  88.299 > \epsilon \approx \num{1e-6}$, thus convergence is not achieved.\\[3mm]
 
 \begin{center}
 	\underline{\textit{ITERATION} $k=1$}
@@ -86,9 +86,9 @@ Search direction has been already calculated in previous iteration, so steps cha
 \lambda_1 = \textit{backtracking} = 0.031250
 \]
 
-\underline{Step 2: Calculate next step $x_{2}$}
+\underline{Step 2: Calculate next step $w_{2}$}
 \[
-x_{k+1} = x_k + \lambda_k s_k = [-0.0117\  -2.9297]^T + 0.3125 \cdot [36.936\  80.203]^T = [1.142542\ -0.423361]^T
+w_{k+1} = w_k + \lambda_k s_k = [-0.0117\  -2.9297]^T + 0.3125 \cdot [36.936\  80.203]^T = [1.142542\ -0.423361]^T
 \]
 Iteration number is increased to $2$ and search direction is updated to:
 \[
@@ -108,9 +108,9 @@ $||s_k|| = 2.4908 > \epsilon$, thus no convergence.\\[3mm]
 \lambda_2 = \textit{backtracking} = 0.5
 \]
 
-\underline{Step 2: Calculate next step $x_{3}$}
+\underline{Step 2: Calculate next step $w_{3}$}
 \[
-x_{k+1} = x_k + \lambda_k s_k = [1.142542\ -0.423361]^T + 0.5 \cdot [−2.4247\  0.57]^T = [-0.069812\ -0.138359]^T
+w_{k+1} = w_k + \lambda_k s_k = [1.142542\ -0.423361]^T + 0.5 \cdot [−2.4247\  0.57]^T = [-0.069812\ -0.138359]^T
 \]
 Iteration number is increased to $3$ and search direction is updated to:
 \[
@@ -130,9 +130,9 @@ $||s_k|| = 0.702082 > \epsilon$, thus no convergence.\\[3mm]
 \lambda_3 = \textit{backtracking} = 0.25
 \]
 
-\underline{Step 2: Calculate next step $x_{4}$}
+\underline{Step 2: Calculate next step $w_{4}$}
 \[
-x_{k+1} = x_k + \lambda_k s_k = [-0.069812\ -0.138359]^T + 0.25 \cdot [0.1215\  0.69148]^T = [-0.039434\ 0.034513]^T
+w_{k+1} = w_k + \lambda_k s_k = [-0.069812\ -0.138359]^T + 0.25 \cdot [0.1215\  0.69148]^T = [-0.039434\ 0.034513]^T
 \]
 Iteration number is increased to $4$ and search direction is updated to:
 \[
@@ -152,9 +152,9 @@ $||s_k|| = 0.1047 > \epsilon$, thus no convergence.\\[3mm]
 \lambda_4 = \textit{backtracking} = 0.5
 \]
 
-\underline{Step 2: Calculate next step $x_{5}$}
+\underline{Step 2: Calculate next step $w_{5}$}
 \[
-x_{k+1} = x_k + \lambda_k s_k = [-0.039434\ 0.034513]^T + 0.5 \cdot [0.0673\ -0.08021]^T = [-0.005783\ -0.005593]^T
+w_{k+1} = w_k + \lambda_k s_k = [-0.039434\ 0.034513]^T + 0.5 \cdot [0.0673\ -0.08021]^T = [-0.005783\ -0.005593]^T
 \]
 Iteration number is increased to $5$ and search direction is updated to:
 \[
