@@ -13,34 +13,166 @@ A function is said to be in quadratic form if it can be expressed as a second-de
 makes this function a higher-degree polynomial, specifically a quartic function with respect to $(0.5w_{1}+w_{2})$, which means it cannot be classified as quadratic.\\
 Also, the independent values in this function are $w_{1},w_{2}$, because only with them we can manipulate the $F(w)$.\\ 
 
-As an initial guess we have $w\left(0\right) = \left[3, 3\right]^T$.\\
-Τhe steps we have to use are specific for each iteration
+As an initial values we have $w\left(0\right) = \left[3, 3\right]^T$ and  $tol=\num{1e-6}$.\\
+
+\subsection{Conjugate Gradient}
+Here, we have to use Conjugate Gradient (\textit{GD}) method in order to find the minimum of it.
+The steps we have to use are specific for each iteration.
 
 \begin{center}
-	\underline{\textit{FIRST ITERATION k = 0}}
+	\underline{\textit{\textbf{FIRST ITERATION} $k = 0$}}
 \end{center}
 
-\underline{Step1: Calculate the Gradient at  $w\left(k\right)$ }\\
-\(\nabla f(w_1,w_2) = \left(\begin{array}{c}
-	\dfrac{\partial f}{\partial w_1} \\[4mm]
-	\dfrac{\partial f}{\partial w_2}
-\end{array}\right)\) = $\left(\begin{array}{c}
-	2w_1 + (0.5w_1+w_2) + 2(0.5w_1+w_2)^3\\[1mm]
-	2w_2 + 2(0.5w_1+w_2) + 4(0.5w_1+w_2)^3
-\end{array}\right) = \left(\begin{array}{c}
-	2.5w_1 + w_2 + 2(0.5w_1+w_2)^3\\[1mm]
-	w_1 + 4w_2 + 4(0.5w_1+w_2)^3
-\end{array}\right)$ \\[3mm]
+\underline{Step1: Calculate the Gradient at  $w\left(x_k\right)$ }\\
+\[
+\begin{gathered}
+	\nabla f(w_1,w_2) = \left(\begin{array}{c}
+		\dfrac{\partial f}{\partial w_1} \\[4mm]
+		\dfrac{\partial f}{\partial w_2}
+	\end{array}\right) = \left(\begin{array}{c}
+		2w_1 + (0.5w_1+w_2) + 2(0.5w_1+w_2)^3\\[1mm]
+		2w_2 + 2(0.5w_1+w_2) + 4(0.5w_1+w_2)^3
+	\end{array}\right) =\\= \left(\begin{array}{c}
+		2.5w_1 + w_2 + 2(0.5w_1+w_2)^3\\[1mm]
+		w_1 + 4w_2 + 4(0.5w_1+w_2)^3
+	\end{array}\right)
+\end{gathered}
+\]\\[3mm]
 
 where at the point $w\left(0\right) = \left[3, 3\right]^T$ we have $\nabla f(x) = \left(\begin{array}{c}
-	-53 \\
-	-19
-\end{array}\right)$
-\\[4mm]
+	192.75 \\
+	379.5
+\end{array}\right)$\\
+Thus, the search direction is $s_k = -\nabla f\left( w^{(k)}\right) = [\num{-192.75} \ \num{-379.5}]^T$.\\
+
+\underline{Step 2: Find $\lambda_k$}\\
+Using a line search algorithm (\textit{ie backtracking}), we find the optimal $\lambda_k$ for this iteration. This algorithm goes as follows:
+\begin{algorithm}[H]
+	\caption{Backtracking Line Search}
+	\begin{algorithmic}
+		\State Choose $\lambda > 0$, $0 < \rho < 1$, and $0 < c < 1$.
+		\While{$f(x + \lambda p) > f(x) + c \cdot \lambda \cdot \nabla f(x)^T \cdot p$}
+		\State $\lambda \gets \rho \cdot \lambda$
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+In order to use this algorithm we set $\lambda_{init} = 1, \rho=0.5, c=\num{1e-4}$.
+Thus, for $k=0$, $\lambda_0 = 0.01562$.\\
+
+\underline{Step 3: Calculate next step $x_{1}$}\\
+Now that we have $\lambda_k$, finding next $x_k$ is easy. It is calculated as
+\[
+x_{k+1} = x_k + \lambda_k s_k = [3\ 3]^T + 0.01562 \cdot (-425.644) = [-0.0117\  -2.9297]^T
+\]
+Iteration number $k$ is updated to $k+1=1$ and search direction is updated using the equation below:
+\[
+\begin{gathered}
+	s_{k} = - \nabla f(x_k) + \omega_k \cdot s_{k-1} = [36.936 \ 80.203]^T, \quad \text{where} \\ 
+	\omega_k = \dfrac{\nabla^T f(x_k) \cdot \nabla f(x_k)}{\nabla^T f(x_{k-1}) \cdot \nabla f(x_{k-1})} = \dfrac{\left( \nabla f(x_k) \right)^2}{\left( \nabla f(x_{k-1}) \right)^2} =  0.086207
+\end{gathered}
+\]
+
+\underline{Step 4: Check for convergence}\\[2mm]
+$||s_k|| =  88.299 > \epsilon \approx \num{1e-6}$, thus no convergence.\\[3mm]
 
 \begin{center}
-	\underline{\textbf{GRADIENT DESCENT}}
+	\underline{\textit{\textbf{SECOND ITERATION} $k=1$}}
 \end{center}
+
+Search direction has been already calculated in previous iteration, so steps change a bit from now on.
+
+\underline{Step 1: Find $\lambda_k$}
+\[
+\lambda_1 = \textit{backtracking} = 0.031250
+\]
+
+\underline{Step 2: Calculate next step $x_{2}$}
+\[
+x_{k+1} = x_k + \lambda_k s_k = [-0.0117\  -2.9297]^T + 0.3125 \cdot [36.936\  80.203]^T = [1.142542\ -0.423361]^T
+\]
+Iteration number is increased to $2$ and search direction is updated to:
+\[
+s_k = [-2.4247\ 0.57]^T
+\]
+
+\underline{Step 3: Check for convergence}\\[2mm]
+$||s_k|| = 2.4908 > \epsilon$, thus no convergence.\\[3mm]
+
+
+\begin{center}
+	\underline{\textit{\textbf{THIRD ITERATION} $k=2$}}
+\end{center}
+
+\underline{Step 1: Find $\lambda_k$}
+\[
+\lambda_2 = \textit{backtracking} = 0.5
+\]
+
+\underline{Step 2: Calculate next step $x_{3}$}
+\[
+x_{k+1} = x_k + \lambda_k s_k = [1.142542\ -0.423361]^T + 0.5 \cdot [−2.4247\  0.57]^T = [-0.069812\ -0.138359]^T
+\]
+Iteration number is increased to $3$ and search direction is updated to:
+\[
+s_k = [0.1215\ 0.69148]^T
+\]
+
+\underline{Step 3: Check for convergence}\\[2mm]
+$||s_k|| = 0.702082 > \epsilon$, thus no convergence.\\[3mm]
+
+
+\begin{center}
+	\underline{\textit{\textbf{FOURTH ITERATION} $k=3$}}
+\end{center}
+
+\underline{Step 1: Find $\lambda_k$}
+\[
+\lambda_3 = \textit{backtracking} = 0.25
+\]
+
+\underline{Step 2: Calculate next step $x_{4}$}
+\[
+x_{k+1} = x_k + \lambda_k s_k = [-0.069812\ -0.138359]^T + 0.25 \cdot [0.1215\  0.69148]^T = [-0.039434\ 0.034513]^T
+\]
+Iteration number is increased to $4$ and search direction is updated to:
+\[
+s_k = [0.0673\ -0.08021]^T
+\]
+
+\underline{Step 3: Check for convergence}\\[2mm]
+$||s_k|| = 0.1047 > \epsilon$, thus no convergence.\\[3mm]
+
+
+\begin{center}
+	\underline{\textit{\textbf{FIFTH ITERATION} $k=4$}}
+\end{center}
+
+\underline{Step 1: Find $\lambda_k$}
+\[
+\lambda_4 = \textit{backtracking} = 0.5
+\]
+
+\underline{Step 2: Calculate next step $x_{5}$}
+\[
+x_{k+1} = x_k + \lambda_k s_k = [-0.039434\ 0.034513]^T + 0.5 \cdot [0.0673\ -0.08021]^T = [-0.005783\ -0.005593]^T
+\]
+Iteration number is increased to $5$ and search direction is updated to:
+\[
+s_k = [0.025861\ 0.021228]^T
+\]
+
+\underline{Step 3: Check for convergence}\\[2mm]
+$||s_k|| = 0.03346 > \epsilon$, thus no convergence.\\[3mm]
+
+Normally, this procedure will continue until the \nth{23} iteration with the calculated minimum point being:
+\[
+w_{final} = \left( \num{5.544e-7}, \num{-3.9125e-7} \right) \approx (0,0)
+\]
+
+\subsection{Gradient Descent}
+%\begin{center}
+%	\underline{\textbf{GRADIENT DESCENT}}
+%\end{center}
 Gradient descent is one of the most favored optimization technique, because of its simplicity and its generality.\\
 In order to find the minimum of the Function ~\ref{eq:function1} we must first initialize our initial point $w_{0}$, value of tolerance $tol$ and Step size\\
 As we have mentioned, the initial values are:
@@ -592,19 +724,16 @@ w_{10} = \left[\begin{array}{c}
 
 We can see that the algorithm doesn't converge yet, but it stopped due to the finite number of iterations ($Max iterations = 10$). With the help of our code we can conclude that the algorithm trully converges after \underline{506} iterations.
 
-To sum up, after $10 iterations$ the Gradient Descent converges at $w_{10} = \left[\begin{array}{c}
+To sum up, after $10$ iterations, the Gradient Descent converges at $w_{10} = \left[\begin{array}{c}
 	0.914\\
 	-0.624
 \end{array}\right]
 $, close to the minimum $w = \left[\begin{array}{c}
 	0\\
 	0
-\end{array}\right]$
+\end{array}\right]$.\\
 
-
-
-
-
-
+As we can observe, the difference between the final converged point of the 2 algorithms is substantial.
+Conjugate Gradient converges in significantly fewer iterations than Gradient Descent because CG's uses a more sophisticated approach to choosing search directions and step sizes. This allows it to navigate through the geometry of the function more efficiently, leading to quicker convergence, particularly for certain classes of functions or higher-dimensional problems, such as our problem.
 
 

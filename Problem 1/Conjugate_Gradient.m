@@ -14,7 +14,7 @@ g = gradF(w);
 s = -g;
 k = 0;
 maxIter = 100;
-tol = 1e-6;
+tol = 1e-4;
 
 while norm(g) > tol && k < maxIter
     k = k + 1;
