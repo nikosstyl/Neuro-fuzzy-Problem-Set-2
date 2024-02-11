@@ -2,9 +2,9 @@
 \section{Problem 1}
 In this exercise we need to find the minimum of the given 2-dimensional function:\\
 \begin{equation}	
-		F(\mathbf{w})=w_{1}^{2}+w_{2}^{2}+(0.5w_{1}+w_{2})^{2}+(0.5w_{1}+w_{2})^{4}	
+		F(\mathbf{w})=w_{1}^{2}+w_{2}^{2}+(0.5w_{1}+w_{2})^{2}+(0.5w_{1}+w_{2})^{4}
+	\label{eq:function1}	
 \end{equation}
-\label{eq:function1}
 with the Conjugate Gradient (Fletcher-Reeves) method and the Gradient Descent.\\
 
 Initially, we can conclude that the function $F(w)$ is not in quadratic form because of the term $(0.5w_{1}+w_{2})^{4}$.
@@ -42,6 +42,10 @@ where at the point $w\left(0\right) = \left[3, 3\right]^T$ we have $\nabla f(x) 
 \end{center}
 Gradient descent is one of the most favored optimization technique, because of its simplicity and its generality.\\
 In order to find the minimum of the Function ~\ref{eq:function1} we must first initialize our initial point $w_{0}$, value of tolerance $tol$ and Step size\\
+Given the same initial guess $w\left(0\right) = \left[3, 3\right]^T$. \\
+In order to find the minimum of the function~\ref{eq:function1} we need to follow the Gradient Descent's steps:\\
+
+\underline{Step 1: Initialize initial point $w_{0}$, value of tolerance $tol$ and Step size}\\
 As we have mentioned, the initial values are:
 \begin{itemize}
 	\item $w\left(0\right) = \left[3, 3\right]^T$
