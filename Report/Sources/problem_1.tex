@@ -4,12 +4,13 @@ In this exercise we need to find the minimum of the given 2-dimensional function
 \begin{equation}	
 		F(\mathbf{w})=w_{1}^{2}+w_{2}^{2}+(0.5w_{1}+w_{2})^{2}+(0.5w_{1}+w_{2})^{4}	
 \end{equation}
-with the Conjugate Gradient (Fletcher-Reeves) method.\\
+\label{eq:function1}
+with the Conjugate Gradient (Fletcher-Reeves) method and the Gradient Descent.\\
 
 Initially, we can conclude that the function $F(w)$ is not in quadratic form because of the term $(0.5w_{1}+w_{2})^{4}$.
 A function is said to be in quadratic form if it can be expressed as a second-degree polynomial where all the terms are either squared terms or cross-products of the variables. The presence of the fourth-degree term $(0.5w_{1}+w_{2})^{4}$.
 makes this function a higher-degree polynomial, specifically a quartic function with respect to $(0.5w_{1}+w_{2})$, which means it cannot be classified as quadratic.\\
-Also, the independent values in this function are $w_{1},w_{2}$, because only with them we can manipulate the $F(w)$.\\ B
+Also, the independent values in this function are $w_{1},w_{2}$, because only with them we can manipulate the $F(w)$.\\ 
 
 As an initial guess we have $w\left(0\right) = \left[3, 3\right]^T$.\\
 Τhe steps we have to use are specific for each iteration
@@ -35,4 +36,51 @@ where at the point $w\left(0\right) = \left[3, 3\right]^T$ we have $\nabla f(x) 
 	-19
 \end{array}\right)$
 \\[4mm]
+
+\begin{center}
+	\underline{\textbf{GRADIENT DESCENT}}
+\end{center}
+Gradient descent is one of the most favored optimization technique, because of its simplicity and its generality.\\
+Given the same initial guess $w\left(0\right) = \left[3, 3\right]^T$. \\
+In order to find the minimum of the Function ~\ref{eq:function1} we need to follow the Gradient Descent's steps:\\
+
+\underline{Step 1: Initialize initial point $w_{0}$, value of tolerance $tol$ and Step size}\\
+As we have mentioned, the initial values are:
+\begin{itemize}
+	\item $w\left(0\right) = \left[3, 3\right]^T$
+	\item $tol = 10^{-6}$
+	\item $\alpha = 0.01$\\
+	The exercise says that we apply the GD method with unit step movement. However, if we set $\alpha = 1$, which is considered a large value, the algorithm may not converge to the optimal point and it will even diverge completely. That's why we set $\alpha = 0.01$. 
+\end{itemize} 
+\vspace{2mm}
+
+\underline{Step 2: Compute gradient $\nabla f$ at $w_{k}$}
+\vspace{4mm}
+
+\underline{Step 3: Make a scaled step in the opposite direction to the gradient}\\
+\begin{equation}
+	\begin{gathered}
+		\text{step} = \alpha \cdot \nabla f_{k}\\
+	\end{gathered}
+\end{equation}
+\vspace{2mm}
+
+\underline{Step 4: Check convergence}\\
+If the step size is smaller than the convergence, then we stop. Else, we repeat Step 2 and Step 3 while we update $x$.
+\vspace{4mm}
+
+\underline{Step 5: Update $x$}
+\begin{equation}
+	x_{k+1} = x_{k} - \alpha \cdot \nabla f_{k}
+\end{equation}
+\vspace{4mm}
+
+Taking these steps into consideration we will attempt to minimize our function.\\
+
+\begin{center}
+	\underline{\textit{FIRST ITERATION k = 0}}
+\end{center}
+
+
+
 
