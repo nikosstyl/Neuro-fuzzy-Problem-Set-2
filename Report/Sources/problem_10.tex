@@ -1,7 +1,7 @@
 % !TeX spellcheck = en_US
 \section{Problem 10}
 
-We are given the following optimization method:
+We are given the following update rule:
 \begin{equation}
 \begin{array}{l}{{g_{t+1}\ \leftarrow\beta\cdot g_{t}+(1-\beta)\cdot\nabla \hat{L}_{t}(\theta_{t})}}\\ {{\theta_{t+1}\ \leftarrow\theta_{t}-\alpha\left[(1-\nu)\cdot\nabla\hat{L}_{t}(\theta_{t})+\nu\cdot g_{t+1}\right]}}\end{array}
 \label{eq:qhm_equation}
@@ -41,5 +41,30 @@ In this extension, instead of using only the gradient of the current step to gui
 
 By looking the equation~\ref{eq:qhm_equation}, \underline{we can clearly obtain the update rule of SGD with momentum} easily. We just need to remove the term $\left(1 -\nu \right) \cdot \nabla \hat{L}_{t}\left(\theta_{t}\right)$ from $\theta_{t+1}$ and we will get the update rule of SGD with momentum.
 This term is zeroed only when $\nu = 1$ and term $\beta$ is necessary in the update rule, thus a pair of values $\mathbf{\left(\beta, \nu\right) = \left(\beta, 1\right)}$.\\
+
+Nesterov's accelerated gradient, that we've seen in our lectures, is another enhancement of \textit{GD} that \say{looks ahead} in the direction of the gradient. It's update rule is:
+\[
+\begin{array}{l}
+	g_{t+1} \leftarrow \beta \cdot g_t + \left(1 - \beta \right) \cdot \nabla \hat{L}_t \left(\theta_t\right) \\ 
+	\theta_{t+1} \leftarrow \theta_{t} - \alpha \cdot g_{t+1}
+\end{array}
+\]
+
+If we observe the update rule from above, we can see that the whole term after $\alpha$ in $\theta_{t+1}$'s update rule is set to $g_{t+1}$. So, we only need to equal those two terms. This is a relatively easy task, as all we have to do is to set $\nu = \beta$ in equation~\ref{eq:qhm_equation}. By doing this replacement, we get:
+\[
+\left\{
+\begin{array}{l}
+	g_{t+1} \leftarrow \beta \cdot g_t + \left(1-\beta\right) \cdot \nabla \hat{L}_t \left(\theta_{t}\right) \\ 
+	\theta_{t+1} \leftarrow \theta_{t} - \alpha \left[ \left(1-\beta\right) \cdot \nabla \hat{L}_t \left(\theta_{t}\right) + \beta \cdot g_{t+1} \right]
+\end{array}
+\right\} \Rightarrow
+\left\{
+\begin{array}{l}
+	g_{t+1} \leftarrow \beta \cdot g_t + \left(1-\beta\right) \cdot \nabla \hat{L}_t \left(\theta_{t}\right) \\ 
+	\theta_{t+1} \leftarrow \theta_{t} - \alpha \cdot g_{t+1}
+\end{array}
+\right\}
+\]
+Thus, we also extracted Nesterov's GD with success.\\
 
 Unfortunately, we cannot extract any other familiar optimization method because they introduce sums and other complex operations in the update rule but the given method does not contain any of those. This formula represents a single, unified optimization method that \underline{is a variation of SGD} with momentum, rather than multiple distinct methods that can be extracted.
