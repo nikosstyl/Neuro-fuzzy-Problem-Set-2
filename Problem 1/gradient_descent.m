@@ -45,4 +45,4 @@ for i = 1:10
 end
 
 % Print the final state
-fprintf('After 10 iterations, x = [%.3f, %.3f]\n', x(1), x(2));
+fprintf('After %d iterations, x = [%.3f, %.3f]\n',i, x(1), x(2));

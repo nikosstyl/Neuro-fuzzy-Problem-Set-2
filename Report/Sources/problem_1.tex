@@ -2,9 +2,10 @@
 \section{Problem 1}
 In this exercise we need to find the minimum of the given 2-dimensional function:\\
 \begin{equation}	
-		F(\mathbf{w})=w_{1}^{2}+w_{2}^{2}+(0.5w_{1}+w_{2})^{2}+(0.5w_{1}+w_{2})^{4}
-	\label{eq:function1}	
+		F(\mathbf{w})=w_{1}^{2}+w_{2}^{2}+(0.5w_{1}+w_{2})^{2}+(0.5w_{1}+w_{2})^{4}	
+		\label{eq:function1}
 \end{equation}
+
 with the Conjugate Gradient (Fletcher-Reeves) method and the Gradient Descent.\\
 
 Initially, we can conclude that the function $F(w)$ is not in quadratic form because of the term $(0.5w_{1}+w_{2})^{4}$.
@@ -42,10 +43,6 @@ where at the point $w\left(0\right) = \left[3, 3\right]^T$ we have $\nabla f(x) 
 \end{center}
 Gradient descent is one of the most favored optimization technique, because of its simplicity and its generality.\\
 In order to find the minimum of the Function ~\ref{eq:function1} we must first initialize our initial point $w_{0}$, value of tolerance $tol$ and Step size\\
-Given the same initial guess $w\left(0\right) = \left[3, 3\right]^T$. \\
-In order to find the minimum of the function~\ref{eq:function1} we need to follow the Gradient Descent's steps:\\
-
-\underline{Step 1: Initialize initial point $w_{0}$, value of tolerance $tol$ and Step size}\\
 As we have mentioned, the initial values are:
 \begin{itemize}
 	\item $w\left(0\right) = \left[3, 3\right]^T$
@@ -402,40 +399,40 @@ w_6 = \left[\begin{array}{c}
 	w_1 + 4w_2 + 4(0.5w_1+w_2)^3
 \end{array}\right)$ \\[3mm]
 
-where at the point $w\left(5\right) = \left[1.000, -0.712\right]^T$ we have $\nabla f_{5} = \left(\begin{array}{c}
-	1.767472 \\
-	-1.888581
+where at the point $w\left(6\right) = \left[0.982, -0.694\right]^T$ we have $\nabla f_{6} = \left(\begin{array}{c}
+	1.744770 \\
+	-1.825515
 \end{array}\right)$
 \\[4mm]
 
 \underline{Step 2: Step size}
 \[
-step = a \cdot \nabla f_{5} = 0.01 \cdot \left(\begin{array}{c}
-	1.767472 \\
-	-1.888581
+step = a \cdot \nabla f_{6} = 0.01 \cdot \left(\begin{array}{c}
+	1.744770 \\
+   -1.825515
 \end{array}\right) \rightarrow step =\left(\begin{array}{c}
-	0.017675 \\
-	-0.018886
+0.017448 \\
+-0.018255
 \end{array}\right)
 \]
 \\[4mm]
 
 \underline{Step 3: Check Convergence}\\
-The norm of the step size is $\| step \| = \num{2.586638e-02} > tol$, so we update $w$
+The norm of the step size is $\| step \| = \num{2.525218e-02} > tol$, so we update $w$
 \\[4mm]
 
 \underline{Step 4: Update}
 \[ 
-w_6 = w_5 - a\cdot \nabla f_5 =  \left[\begin{array}{c}
-	1.000\\
-	-0.712
-\end{array}\right] - \left(\begin{array}{c}
-	0.017675 \\
-	-0.018886
-\end{array}\right) \rightarrow
-w_6 = \left[\begin{array}{c}
+w_7 = w_6 - a\cdot \nabla f_6 =  \left[\begin{array}{c}
 	0.982\\
 	-0.694
+\end{array}\right] - \left(\begin{array}{c}
+0.017448 \\
+-0.018255
+\end{array}\right) \rightarrow
+w_7 = \left[\begin{array}{c}
+	0.965\\
+	-0.675
 \end{array}\right]
 \]
 \\[4mm]
@@ -453,43 +450,157 @@ w_6 = \left[\begin{array}{c}
 	w_1 + 4w_2 + 4(0.5w_1+w_2)^3
 \end{array}\right)$ \\[3mm]
 
-where at the point $w\left(5\right) = \left[1.000, -0.712\right]^T$ we have $\nabla f_{5} = \left(\begin{array}{c}
-	1.767472 \\
-	-1.888581
+where at the point $w\left(7\right) = \left[0.965, -0.675\right]^T$ we have $\nabla f_{7} = \left(\begin{array}{c}
+	1.721644 \\
+-1.765466
 \end{array}\right)$
 \\[4mm]
 
 \underline{Step 2: Step size}
 \[
-step = a \cdot \nabla f_{5} = 0.01 \cdot \left(\begin{array}{c}
-	1.767472 \\
-	-1.888581
+step = a \cdot \nabla f_{7} = 0.01 \cdot \left(\begin{array}{c}
+	1.721644 \\
+-1.765466
 \end{array}\right) \rightarrow step =\left(\begin{array}{c}
-	0.017675 \\
-	-0.018886
+0.017216 \\
+-0.017655
 \end{array}\right)
 \]
 \\[4mm]
 
 \underline{Step 3: Check Convergence}\\
-The norm of the step size is $\| step \| = \num{2.586638e-02} > tol$, so we update $w$
+The norm of the step size is $\| step \| = \num{2.465954e-02} > tol$, so we update $w$
 \\[4mm]
 
 \underline{Step 4: Update}
 \[ 
-w_6 = w_5 - a\cdot \nabla f_5 =  \left[\begin{array}{c}
-	1.000\\
-	-0.712
+w_8 = w_7 - a\cdot \nabla f_7 =  \left[\begin{array}{c}
+	0.965\\
+-0.675
 \end{array}\right] - \left(\begin{array}{c}
-	0.017675 \\
-	-0.018886
+0.017216 \\
+-0.017655
 \end{array}\right) \rightarrow
-w_6 = \left[\begin{array}{c}
-	0.982\\
-	-0.694
+w_8 = \left[\begin{array}{c}
+	0.947\\
+	-0.658
 \end{array}\right]
 \]
 \\[4mm]
+
+\begin{center}
+	\underline{\textit{ITERATION k = 8}}
+\end{center}
+
+\underline{Step 1: Compute Gradient}\\
+\(\nabla f(w_1,w_2) = \left(\begin{array}{c}
+	\dfrac{\partial f}{\partial w_1} \\[4mm]
+	\dfrac{\partial f}{\partial w_2}
+\end{array}\right)\) $= \left(\begin{array}{c}
+	2.5w_1 + w_2 + 2(0.5w_1+w_2)^3\\[1mm]
+	w_1 + 4w_2 + 4(0.5w_1+w_2)^3
+\end{array}\right)$ \\[3mm]
+
+where at the point $w\left(8\right) = \left[0.965, -0.675\right]^T$ we have $\nabla f_{8} = \left(\begin{array}{c}
+	1.698186 \\
+	-1.708205
+\end{array}\right)$
+\\[4mm]
+
+\underline{Step 2: Step size}
+\[
+step = a \cdot \nabla f_{8} = 0.01 \cdot \left(\begin{array}{c}
+	1.698186 \\
+-1.708205
+\end{array}\right) \rightarrow step =\left(\begin{array}{c}
+	0.016982 \\
+	-0.017082
+\end{array}\right)
+\]
+\\[4mm]
+
+\underline{Step 3: Check Convergence}\\
+The norm of the step size is $\| step \| = \num{2.408693e-02} > tol$, so we update $w$
+\\[4mm]
+
+\underline{Step 4: Update}
+\[ 
+w_9 = w_8 - a\cdot \nabla f_8 =  \left[\begin{array}{c}
+	0.947\\
+	-0.658
+\end{array}\right] - \left(\begin{array}{c}
+	0.016982 \\
+-0.017082
+\end{array}\right) \rightarrow
+w_9 = \left[\begin{array}{c}
+	0.930\\
+	-0.641
+\end{array}\right]
+\]
+\\[4mm]
+
+\begin{center}
+	\underline{\textit{ITERATION k = 9}}
+\end{center}
+
+\underline{Step 1: Compute Gradient}\\
+\(\nabla f(w_1,w_2) = \left(\begin{array}{c}
+	\dfrac{\partial f}{\partial w_1} \\[4mm]
+	\dfrac{\partial f}{\partial w_2}
+\end{array}\right)\) $= \left(\begin{array}{c}
+	2.5w_1 + w_2 + 2(0.5w_1+w_2)^3\\[1mm]
+	w_1 + 4w_2 + 4(0.5w_1+w_2)^3
+\end{array}\right)$ \\[3mm]
+
+where at the point $w\left(9\right) = \left[0.930,	-0.641\right]^T$ we have $\nabla f_{9} = \left(\begin{array}{c}
+	1.674479 \\
+	-1.653529
+\end{array}\right)$
+\\[4mm]
+
+\underline{Step 2: Step size}
+\[
+step = a \cdot \nabla f_{9} = 0.01 \cdot \left(\begin{array}{c}
+	1.674479 \\
+-1.653529
+\end{array}\right) \rightarrow step =\left(\begin{array}{c}
+	0.016745 \\
+	-0.016535
+\end{array}\right)
+\]
+\\[4mm]
+
+\underline{Step 3: Check Convergence}\\
+The norm of the step size is $\| step \| = \num{2.353304e-02} > tol$, so we update $w$
+\\[4mm]
+
+\underline{Step 4: Update}
+\[ 
+w_{10} = w_9 - a\cdot \nabla f_9 =  \left[\begin{array}{c}
+	0.930\\
+	-0.641
+\end{array}\right] - \left(\begin{array}{c}
+	0.016745 \\
+-0.016535
+\end{array}\right) \rightarrow
+w_{10} = \left[\begin{array}{c}
+	0.914\\
+	-0.624
+\end{array}\right]
+\]
+\\[4mm]
+
+We can see that the algorithm doesn't converge yet, but it stopped due to the finite number of iterations ($Max iterations = 10$). With the help of our code we can conclude that the algorithm trully converges after \underline{506} iterations.
+
+To sum up, after $10 iterations$ the Gradient Descent converges at $w_{10} = \left[\begin{array}{c}
+	0.914\\
+	-0.624
+\end{array}\right]
+$, close to the minimum $w = \left[\begin{array}{c}
+	0\\
+	0
+\end{array}\right]$
+
 
 
 
